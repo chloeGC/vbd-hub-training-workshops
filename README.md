@@ -4,7 +4,7 @@
 ### Learning objectives: By the of of this workshop, you should be able to:
 Generate accessible visualisations to communicate complex data to different audiences and stakeholders.\
 Formulate data-driven hypotheses from effective data visualisations.\
-Build collaborative, professional connections within the VBD community.\
+Build collaborative, professional connections within the VBD community.
 
 ### Prerequisites
 Foundational knowledge of programming in R.\
