@@ -11,7 +11,6 @@ Foundational knowledge of programming in R.
 Experience of formatting data and statistics in R.
 Basic understanding of VBDs.
 \
-\
 ## Workshop 2: Data wrangling with hub search and ohvbd
 ### Learning objectives: By the of of this workshop, you should be able to:
 Use VBD Hub resources to access shared VBD datasets.\
@@ -22,4 +21,4 @@ Build collaborative, professional connections within the VBD community.
 Foundational knowledge of programming in R.
 Experience of formatting data and statistics in R.
 Basic understanding of VBDs.
-\
+
