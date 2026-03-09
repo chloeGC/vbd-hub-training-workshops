@@ -57,7 +57,7 @@ If you need a quick reminder of basic coding in R, additional materials and chea
 - Data wrangling (read up to Data visualization)
 - Basic hypothesis testing
 -	Basic R cheatsheet
--	Data wrangling with dplyr and tidyr cheatsheet
+-	[Data wrangling with dplyr](https://rstudio.github.io/cheatsheets/data-transformation.pdf) and tidyr cheatsheet
 
 
 If you need additional support through this workshop:
