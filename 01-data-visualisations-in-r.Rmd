@@ -191,10 +191,11 @@ You should now see a simple abundance plot in the “Plot” window of RStudio, 
 
 
 ``` {r include=FALSE}
-tick_data <- read.csv("tick_dataset_wrangled.csv")
+tick_data <- read.csv("data/tick_dataset_wrangled.csv")
 ```
 
 ``` {r}
+library("ggplot2")
 tick_abundance_location <- ggplot(tick_data, aes(x = sample_location, y = sample_value)) +
 geom_point() +
 labs(
@@ -285,7 +286,7 @@ You should now see a new simple abundance plot in the “Plot” window of RStud
 
 
 ```{r include=FALSE}
-mosquito_monthly_data <- read.csv("mosquito_monthly_2023_subset.csv")
+mosquito_monthly_data <- read.csv("data/mosquito_monthly_2023_subset.csv")
 ```
 
 ``` {r}
