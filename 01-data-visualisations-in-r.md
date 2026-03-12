@@ -190,18 +190,16 @@ tick_abundance_location
 You should now see a simple abundance plot in the “Plot” window of RStudio, which looks like this:
 
 
-```r
-tick_abundance_location <- ggplot(tick_data, aes(x = sample_location, y = sample_value)) +
-geom_point() +
-labs(
-x = "Sampling Location",
-y = "Tick Abundance",
-title = "Tick Abundance Across Sampling Locations"
-)
 
+
+
+
+
+``` r
 tick_abundance_location
-
 ```
+
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 
 ::: {.rmdtip}
@@ -280,17 +278,16 @@ mosquito_abundance_monthly
 You should now see a new simple abundance plot in the “Plot” window of RStudio, which looks like this:
 
 
-```r
-mosquito_abundance_monthly <- ggplot(mosquito_monthly_data, aes(x = month, y = sample_value)) +
-geom_point() +
-labs(
-x = "Month",
-y = "Mosquito Abundance",
-title = "Monthly Mosquito Abundance Across 2023"
-)
 
+
+
+
+
+``` r
 mosquito_abundance_monthly
 ```
+
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 
 Don’t forget to save your plot:
@@ -361,9 +358,6 @@ Ahead of the live session, ensure you keep R and RStudio installed on your devic
 
 
 Please make sure you have Teams set up on your device and that your microphone is working. We will aim to send the link 48 hours before the live session. Please be aware that the live session will be recorded. 
-
-
-A schedule for the **Live Session** can be found here.
 
 
 ## Reading & Resources

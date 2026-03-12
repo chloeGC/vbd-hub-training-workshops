@@ -137,9 +137,9 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">tick_abundance_location</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">tick_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_location</span>, y <span class="op">=</span> <span class="va">sample_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">labs</span><span class="op">(</span></span>
+<span><span class="va">tick_abundance_location</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">tick_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_location</span>, y <span class="op">=</span> <span class="va">sample_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>x <span class="op">=</span> <span class="st">"Sampling Location"</span>,</span>
 <span>y <span class="op">=</span> <span class="st">"Tick Abundance"</span>,</span>
 <span>title <span class="op">=</span> <span class="st">"Tick Abundance Across Sampling Locations"</span></span>
@@ -148,31 +148,24 @@
 <span><span class="va">tick_abundance_location</span></span></code></pre></div>
 <p>You should now see a simple abundance plot in the “Plot” window of RStudio, which looks like this:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tick_abundance_location</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">tick_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_location</span>, y <span class="op">=</span> <span class="va">sample_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">labs</span><span class="op">(</span></span>
-<span>x <span class="op">=</span> <span class="st">"Sampling Location"</span>,</span>
-<span>y <span class="op">=</span> <span class="st">"Tick Abundance"</span>,</span>
-<span>title <span class="op">=</span> <span class="st">"Tick Abundance Across Sampling Locations"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">tick_abundance_location</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tick_abundance_location</span></span></code></pre></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-3-1.png" width="672"></div>
 <div class="rmdtip">
 <p><strong>Tip:</strong> Using ggplot2 to code visualisations can look heavy, but what we are doing is breaking down each step of the plot like building blocks. Let’s have a closer look:</p>
 <p><code>ggplot(tick_data, aes(x = sample_location, y = sample_value))</code>
 <code>tick_data</code> is the dataset we want to visualise.
-<code>aes()</code> represents aesthetics, including which variables from the dataset we want to visualise. For this plot:
+<code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> represents aesthetics, including which variables from the dataset we want to visualise. For this plot:
 <code>x = sample_location</code> tells R to place sampling location on the x-axis.
 <code>y = sample_value</code> tells R to place tick abundance on the y-axis.</p>
-<p><code>geom_point()</code>
+<p><code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code>
 Tells R to plot a point for each observation in the dataset. For this data, one observation is the tick count per sample collected at a particular location. We would change this if we wanted to use a line plot.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">labs</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>x <span class="op">=</span> <span class="st">"Sampling Location"</span>,</span>
 <span>y <span class="op">=</span> <span class="st">"Tick Abundance"</span>,</span>
 <span>title <span class="op">=</span> <span class="st">"Tick Abundance Across Sampling Locations"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The <code>labs()</code> function simply adds labels to the visualisation to make it easier to interpret. For this plot, we have added an x-axis label, a y-axis label, and a title for the plot.</p>
+<p>The <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs()</a></code> function simply adds labels to the visualisation to make it easier to interpret. For this plot, we have added an x-axis label, a y-axis label, and a title for the plot.</p>
 </div>
 <p>It is a good idea to save your visualisations so you can easily refer back to them when you need. There are several ways to save visualisations in R, but it is good practice to use code:</p>
 <p><code>ggsave("tick_abundance_location.png", plot = tick_abundance_location)</code></p>
@@ -196,9 +189,9 @@ Tells R to plot a point for each observation in the dataset. For this data, one 
 <span><span class="va">mosquito_monthly_data</span></span></code></pre></div>
 <p>Now, let’s visualise the data using another simple abundance plot using points to show individual observations:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mosquito_abundance_monthly</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">mosquito_monthly_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">sample_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">labs</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">mosquito_abundance_monthly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mosquito_monthly_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">sample_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>x <span class="op">=</span> <span class="st">"Month"</span>,</span>
 <span>y <span class="op">=</span> <span class="st">"Mosquito Abundance"</span>,</span>
 <span>title <span class="op">=</span> <span class="st">"Monthly Mosquito Abundance Across 2023"</span></span>
@@ -207,15 +200,8 @@ Tells R to plot a point for each observation in the dataset. For this data, one 
 <span><span class="va">mosquito_abundance_monthly</span></span></code></pre></div>
 <p>You should now see a new simple abundance plot in the “Plot” window of RStudio, which looks like this:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mosquito_abundance_monthly</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">mosquito_monthly_data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">sample_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu">labs</span><span class="op">(</span></span>
-<span>x <span class="op">=</span> <span class="st">"Month"</span>,</span>
-<span>y <span class="op">=</span> <span class="st">"Mosquito Abundance"</span>,</span>
-<span>title <span class="op">=</span> <span class="st">"Monthly Mosquito Abundance Across 2023"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">mosquito_abundance_monthly</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mosquito_abundance_monthly</span></span></code></pre></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-6-1.png" width="672"></div>
 <p>Don’t forget to save your plot:</p>
 <p><code>ggsave("mosquito_abundance_monthly.png", plot = mosquito_abundance_monthly)</code></p>
 <p>Now it’s your turn to have a go at identifying patterns and information about the dataset from this new visualisation, as we did in <strong>Task 1</strong>. Please record your answers in the <strong>Response Form</strong> at the end of the <strong>Pre- Live Session</strong> content.</p>
@@ -267,7 +253,6 @@ Tells R to plot a point for each observation in the dataset. For this data, one 
 </h2>
 <p>Ahead of the live session, ensure you keep R and RStudio installed on your device, as well as the packages we prepared earlier.</p>
 <p>Please make sure you have Teams set up on your device and that your microphone is working. We will aim to send the link 48 hours before the live session. Please be aware that the live session will be recorded.</p>
-<p>A schedule for the <strong>Live Session</strong> can be found here.</p>
 </div>
 <div id="reading-resources" class="section level2" number="2.6">
 <h2>
