@@ -9,10 +9,15 @@ navigating-course-content
 available-materials-support
 installing-packages
 pre--live-session-content-1
-what-can-visualisations-tell-us-about-data
-formulating-hypotheses-from-visualisations
 commonly-used-visualisations-for-vbd-data
-form-ahead-of-live-session
+what-can-visualisations-tell-us-about-data
+task-1-visualising-tick-abundance-across-locations
+task-2-visualising-mosquito-abundance-over-time
+formulating-hypotheses-from-visualisations
+task-3-formulating-hypotheses-from-data-visualisations
+response-form
+conclusion-preparation-for-live-session
+reading-resources
 live-session-1
 live-session-schedule
 introduction-10-mins
@@ -77,4 +82,4 @@ scatter-plots
 histograms
 boxplots
 saving-plots-visualisations
-reading-resources
+reading-resources-1
