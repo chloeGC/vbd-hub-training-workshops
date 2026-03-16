@@ -24,36 +24,36 @@
 ## Training Plan
 
 ### Pre- live session content
-This is to be completed ahead of the Live Session.
-Content will be available on the Hub under Learning Resources.
+This is to be completed ahead of the **Live Session**.
+Content will be available on the Hub under [Learning Resources](https://vbdhub.org/resources/learn).
 
 
-The VBD Hub Forum is available for support and networking.
+The [VBD Hub Forum](https://forum.vbdhub.org/t/online-training-data-visualisations-in-r/159) is available for support and networking.
 
 
 ### Live session
 10:00 - 13:00 on Thursday 19th March, via Teams.
 
 
-Content will be made available on the Hub under Learning Resources on the day of the Live Session.
+Content will be made available on the Hub under [Learning Resources](https://vbdhub.org/resources/learn) on the day of the **Live Session**.
 
 
-### Post- Live Session Challenge Task
-Multi-stage task to be completed independently after the Live Session. The stages will increase in difficulty and provide an opportunity to apply what you have learnt to real VBD datasets.
+### Challenge Task
+Multi-stage task to be completed independently after the **Live Session**. The stages will increase in difficulty and provide an opportunity to apply what you have learnt to real VBD datasets.
 
 
-Content will be posted on the Hub under Learning Resources on the day of the Live Session.
-The VBD Hub Forum will be available for support and networking).
+Content will be posted on the VBD Hub under [Learning Resources](https://vbdhub.org/resources/learn) on the day of the Live Session.
+The [VBD Hub Forum](https://forum.vbdhub.org/t/challenge-task-q-a-data-visualisations-in-r/160) will be available for support.
 
 
 ## Navigating Course Content
 Many of the tasks in this workshop will be in a workbook-style format and will walk you through how to code specific functions and models. We encourage you to type this code yourself to practice syntax and gain the most out of the content provided, rather than copying and pasting.
 
 
-All the datasets in this workshop have been tidied and wrangled for you. This is so we can focus on the key themes within this session - effective visualisations and graphics. Raw data is also provided, and we recommend you take a look at the “before” and “after” to better understand the data we are working with. To recap data wrangling in R, see here.
+All the datasets in this workshop have been tidied and wrangled for you. This is so we can focus on the key themes within this session - effective visualisations and graphics. Raw data is also provided, and we recommend you take a look at the “before” and “after” to better understand the data we are working with. 
 
 
-All coding through this workshop will be done in Rstudio, a user friendly IDE (integrated development environment) for R language. Please ensure you have R and RStudio installed and updated ahead of the Live Session. If you do not already have R or RStudio installed, see here.
+All coding through this workshop will be done in Rstudio, a user friendly IDE (integrated development environment) for R language. Please ensure you have R and RStudio installed and updated ahead of the **Live Session**. If you do not already have R or RStudio installed, see [here](https://posit.co/download/rstudio-desktop/).
 
 
 ## Available Materials & Support
@@ -372,6 +372,11 @@ Please make sure you have Teams set up on your device and that your microphone i
 
 
 # Live Session
+
+
+::: {.rmdcaution}
+**Caution:** This content is not yet complete. Come back soon.
+:::
 
 
 ## Live Session Schedule 

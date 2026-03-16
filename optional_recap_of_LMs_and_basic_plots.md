@@ -124,8 +124,9 @@ The output of the `anova()` function also provides a table, which lists the foll
 
 If you are interested in further linear models, you can find resources here:
 
-- Linear Models: Multiple explanatory variables
-- Linear Models: Multiple variables with interactions
+- [Linear Models: Multiple explanatory variables](https://vbdhub.org/MQB/notebooks/mul-expl.html)
+- [Linear Models: Multiple variables with interactions](https://vbdhub.org/MQB/notebooks/mul-expl-inter.html)
+- [Generalised Linear Models](https://vbdhub.org/MQB/notebooks/glms.html)
 
 **This additional content is optional, and is not necessary to complete this workshop.**
 
@@ -193,42 +194,10 @@ To plot a simple boxplot, we can use the `boxplot()` function:
 
 
 ## Reading & Resources
-Coming soon
 
-
-
-::: {.rmdtip}
-**Tip:** This is a tip.
-:::
-
-::: {.rmdnote}
-**Note:** This is a note.
-:::
-
-::: {.rmdimportant}
-**Important:** This is important.
-:::
-
-::: {.rmdcaution}
-**Caution:** This is a caution.
-:::
-
-::: {.rmdwarning}
-**Warning:** This is a warning.
-:::
-
-
-
-
-
-
-
-
-
-
-
-
-
+- [Linear Regression](https://learningstatisticswithr.com/book/regression.html)
+- [Simple Base R Plots](https://intro2r.com/simple-base-r-plots.html)
+- [Data Management and Visualization (read up to Beautiful Graphics in R)](https://vbdhub.org/resources/learn/training-2025/data-management-and-visualisation)
 
 
 

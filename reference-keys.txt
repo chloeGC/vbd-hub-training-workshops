@@ -4,7 +4,7 @@ prerequisites
 training-plan
 pre--live-session-content
 live-session
-post--live-session-challenge-task
+challenge-task
 navigating-course-content
 available-materials-support
 installing-packages
@@ -30,7 +30,7 @@ communicating-to-different-audiences-15-mins
 visualisation-themes-accessible-graphics-15-mins
 prepare-for-challenge-task-conclusion
 reading-resources
-challenge-task
+challenge-task-1
 level-1
 level-2
 level-3
@@ -42,7 +42,7 @@ prerequisites-1
 training-plan-1
 pre--live-session-content-2
 live-session-2
-post--live-session-challenge-task-1
+post--live-session-challenge-task
 navigating-course-content-1
 available-materials-support-1
 installing-packages-1
@@ -67,7 +67,7 @@ collaborative-task-45-mins-1
 share-results-from-collaborative-task-15-mins
 what-does-collaboration-mean-to-you-15-minutes
 prepare-for-challenge-task-conclusion-10-mins
-challenge-task-1
+challenge-task-2
 level-1-1
 level-2-1
 level-3-1
