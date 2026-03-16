@@ -1,13 +1,10 @@
 # (PART) Workshop 2:  Data Wrangling with Hub Search & ohvbd {-}
 
+# Introduction
 
 ::: {.rmdcaution}
 **Caution:** This content is not yet complete. Come back soon.
 :::
-
-
-# Introduction
-
 
 ## Learning objectives
 
