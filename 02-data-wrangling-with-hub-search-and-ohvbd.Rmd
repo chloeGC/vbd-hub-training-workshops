@@ -16,9 +16,9 @@
 
 **Before participating in this workshop, you should have:**
 
-- Foundational knowledge of programming in R.
-- Experience of formatting data and statistics in R.
-- A basic understanding of VBDs.
+- Foundational knowledge of programming in R and RStudio, including running code, installing packages, and working within scripts.
+- Some experience of formatting datasets in R, such as importing .csv files and viewing dataframes.
+- Basic understanding of VBD biology, including common vectors and pathogen transmission.
 
 
 ## Training Plan
@@ -357,5 +357,24 @@ You might choose to pair up with someone using similar data and give peer feedba
 
 
 
+::: {.rmdtip}
+**Tip:** This is a tip.
+:::
+
+::: {.rmdnote}
+**Note:** This is a note.
+:::
+
+::: {.rmdimportant}
+**Important:** This is important.
+:::
+
+::: {.rmdcaution}
+**Caution:** This is a caution.
+:::
+
+::: {.rmdwarning}
+**Warning:** This is a warning.
+:::
 
 
