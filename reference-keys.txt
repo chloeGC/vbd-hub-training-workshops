@@ -17,7 +17,6 @@ formulating-hypotheses-from-visualisations
 task-3-formulating-hypotheses-from-data-visualisations
 response-form
 conclusion-preparation-for-live-session
-reading-resources
 live-session-1
 live-session-schedule
 introduction-10-mins
@@ -30,6 +29,7 @@ share-collaborative-graphics-15-mins
 communicating-to-different-audiences-15-mins
 visualisation-themes-accessible-graphics-15-mins
 prepare-for-challenge-task-conclusion
+reading-resources
 challenge-task
 level-1
 level-2

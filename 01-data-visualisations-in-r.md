@@ -26,16 +26,22 @@
 ### Pre- live session content
 This is to be completed ahead of the Live Session.
 Content will be available on the Hub under Learning Resources.
+
+
 The VBD Hub Forum is available for support and networking.
 
 
 ### Live session
 10:00 - 13:00 on Thursday 19th March, via Teams.
+
+
 Content will be made available on the Hub under Learning Resources on the day of the Live Session.
 
 
 ### Post- Live Session Challenge Task
 Multi-stage task to be completed independently after the Live Session. The stages will increase in difficulty and provide an opportunity to apply what you have learnt to real VBD datasets.
+
+
 Content will be posted on the Hub under Learning Resources on the day of the Live Session.
 The VBD Hub Forum will be available for support and networking).
 
@@ -53,11 +59,11 @@ All coding through this workshop will be done in Rstudio, a user friendly IDE (i
 ## Available Materials & Support
 If you need a quick reminder of basic coding in R, additional materials and cheat sheets can be found here:
 
-- Basic R syntax & functions
-- Data wrangling (read up to Data visualization)
-- Basic hypothesis testing
--	Basic R cheatsheet
--	[Data wrangling with dplyr](https://rstudio.github.io/cheatsheets/data-transformation.pdf) and tidyr cheatsheet
+- [Biological Computing in R](https://vbdhub.org/MQB/notebooks/r.html)
+- [Data Management (read up to Data visualization)](https://vbdhub.org/resources/learn/training-2025/data-management-and-visualisation)
+- [Basic Hypothesis Testing](https://vbdhub.org/MQB/notebooks/t-f-tests.html)
+-	[RStudio IDE Cheatsheet](https://rstudio.github.io/cheatsheets/rstudio-ide.pdf)
+-	[Data Wrangling with dplyr Cheatsheet](https://rstudio.github.io/cheatsheets/data-transformation.pdf) 
 
 
 If you need additional support through this workshop:
@@ -73,12 +79,15 @@ This workshop will use several R packages throughout, please install these ahead
 
 
 **Packages for this workshop:**
-`ggplot2`
+
+- `ggplot2`
+- `tidyverse`
+- `lubridate`
 
 
 ::: {.rmdtip}
 **Reminder:** To install packages in R, use the `install.packages()` command.
-:::
+
 
 To install one package:
 ``` r
@@ -89,6 +98,8 @@ To install multiple packages:
 ``` r
 install.packages(c("ggplot2", "dplyr", "tidyr"))
 ```
+:::
+
 
 # Pre- Live Session Content
 
@@ -140,7 +151,7 @@ Given how much information we can extract from them, visualisations are often th
 
 
 ### Task 1: Visualising Tick Abundance Across Locations 
-Let’s try visualising some VBD data. First, download tick_dataset_wrangled.csv and open it in RStudio:
+Let’s try visualising some VBD data. First, download [tick_dataset_wrangled.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/tick_dataset_wrangled.csv) and open it in RStudio:
 
 
 ``` r
@@ -250,7 +261,7 @@ From the visualisation, we can see:
 Let’s try another visualisation, this time plotting vector abundance over time. Visualising data across time can help us identify temporal trends, seasonal patterns, and periods of unusually high or low abundance.
 
 
-Download the mosquito_monthly_2023_subset.csv dataset and open in RStudio:
+Download the [mosquito_monthly_2023_subset.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/mosquito_monthly_2023_subset.csv) dataset and open in RStudio:
 
 
 ``` r
@@ -347,7 +358,7 @@ Please record your answers in the **Response Form** at the end of the **Pre- Liv
 
 
 ## Response Form 
-Please complete this **Response Form** after finishing the tasks above.
+Please complete this [Response Form](https://docs.google.com/forms/d/e/1FAIpQLScGu77Qc6dqKAdB7BsbdSOn-h407HI9_f7OWELcVfZLysxrJA/viewform?usp=publish-editor) after finishing the tasks above.
 
 
 This form is anonymous and is **not** an assessment. Your responses will help us to understand which areas may require more support during the **Live Session**. We aim to tailor the content to the group's needs, so you gain the most from this workshop.
@@ -358,10 +369,6 @@ Ahead of the live session, ensure you keep R and RStudio installed on your devic
 
 
 Please make sure you have Teams set up on your device and that your microphone is working. We will aim to send the link 48 hours before the live session. Please be aware that the live session will be recorded. 
-
-
-## Reading & Resources
-Coming soon
 
 
 # Live Session
@@ -483,6 +490,13 @@ Where to find support
 
 
 Conclusion
+
+
+## Reading & Resources
+
+- [Data Visualisation with ggplot2 Cheatsheet](https://rstudio.github.io/cheatsheets/data-visualization.pdf)
+- [Ten Simple Rules for Better Figures](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003833)
+- [Accessibility](https://cran.r-project.org/web/packages/afcharts/vignettes/accessibility.html)
 
 
 # Challenge Task 
