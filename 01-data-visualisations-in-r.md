@@ -461,9 +461,7 @@ Let’s start by downloading [mosquito_subset_wrangled.csv](https://github.com/O
 
 
 ``` r
-library("ggplot2")
 library("tidyverse")
-library("lubridate")
 
 mosquito_data <- read_csv("data/mosquito_subset_wrangled.csv")
 #> Rows: 1991 Columns: 14
@@ -477,17 +475,22 @@ mosquito_data <- read_csv("data/mosquito_subset_wrangled.csv")
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
+::: {.rmdnote}
+**Note:** `tidyverse` is an all-encompassing package that contains a bunch of extra packages.
+
+Here we will mostly be using functions from the `ggplot2` and `lubridate` packages, but we can just load them all using `tidyverse`.
+:::
 
 As our data involves multiple samples at the same site, we next want to summarise the abundance data for each location. We do this by grouping by location using the `group_by()` function, then summarising the abundance per location as the `mean()` and `sd()` using the `summarise()` function:
 
 
 ``` r
 abundance_per_location <- mosquito_data %>%
-group_by(sample_location) %>%
-summarise(
-mean_abundance = mean(sample_value, na.rm = TRUE),
-se_abundance = sd(sample_value, na.rm = TRUE) / sqrt(sum(!is.na(sample_value)))
-)
+  group_by(sample_location) %>%
+  summarise(
+    mean_abundance = mean(sample_value, na.rm = TRUE),
+    se_abundance = sd(sample_value, na.rm = TRUE) / sqrt(sum(!is.na(sample_value)))
+  )
 ```
 
 
@@ -495,21 +498,23 @@ We can use `ggplot2` to visualise the abundance of mosquitos at multiple samplin
 
 
 ```r
-ggplot(abundance_per_location,
-aes(x = sample_location, y = mean_abundance)) +
+ggplot(
+  abundance_per_location,
+  aes(x = sample_location, y = mean_abundance)
+  ) +
 ```
 
 
 This time, instead of using `geom_point()`, we will use `geom_col()` and `geom_errorbar()`. This tells R that we want to plot bars with whiskers (vertical error lines):
 
 
-``` r
+```r
 geom_col(fill = "darkturquoise") +
-geom_errorbar(aes(
-ymin = mean_abundance - se_abundance,
-ymax = mean_abundance + se_abundance
-),
-width = 0.2) +
+  geom_errorbar(aes(
+    ymin = mean_abundance - se_abundance,
+    ymax = mean_abundance + se_abundance
+  ),
+  width = 0.2) +
 ```
 
 
@@ -531,9 +536,9 @@ The final chunk of code is adding labels using `labs()` - this is the same as we
 
 ``` r
 labs(
-title = "Mean Abundance of Culex pipiens Across Locations",
-x = "Sampling Location",
-y = "Mean Abundance"
+  title = "Mean Abundance of Culex pipiens Across Locations",
+  x = "Sampling Location",
+  y = "Mean Abundance"
 )
 ```
 
@@ -543,19 +548,22 @@ If we piece those chunks of code together, we can generate our visualisation:
 
 
 ``` r
-abundance_plot_across_locations <- ggplot(abundance_per_location,
-aes(x = sample_location, y = mean_abundance)) +
-geom_col(fill = "darkturquoise") +
-geom_errorbar(aes(
-ymin = mean_abundance - se_abundance,
-ymax = mean_abundance + se_abundance
-),
-width = 0.2) +
-labs(
-title = "Mean Abundance of Culex pipiens Across Locations",
-x = "Sampling Location",
-y = "Mean Abundance"
-)
+abundance_plot_across_locations <- ggplot(
+  abundance_per_location,
+  aes(x = sample_location, y = mean_abundance)
+  ) +
+  geom_col(fill = "darkturquoise") +
+  geom_errorbar(
+    aes(
+      ymin = mean_abundance - se_abundance,
+      ymax = mean_abundance + se_abundance
+    ),
+    width = 0.2) +
+  labs(
+    title = "Mean Abundance of Culex pipiens Across Locations",
+    x = "Sampling Location",
+    y = "Mean Abundance"
+  )
 
 abundance_plot_across_locations
 ```
@@ -567,7 +575,9 @@ abundance_plot_across_locations
 **Tip:** Remember to save your graphic:
 
 
-`ggsave("abundance_across_locations.pdf", plot = abundance_plot_across_locations)`
+```r
+ggsave("daily_abundance_all.pdf", plot = daily_abundance_plot_all)
+```
 :::
 
 
@@ -602,7 +612,7 @@ Later in this session, we will consider abundance over multiple locations, but f
 
 ``` r
 mosquito_data_goro <- mosquito_data %>%
-filter(sample_location == "Goro")
+  filter(sample_location == "Goro")
 ```
 
 
@@ -698,8 +708,8 @@ Oh dear, this graphic looks rather messy! Although we have used the correct code
 
 ``` r
 daily_abundance_goro <- mosquito_data_goro %>%
-group_by(sample_start_date) %>%
-summarise(total_abundance = sum(sample_value, na.rm = TRUE))
+  group_by(sample_start_date) %>%
+  summarise(total_abundance = sum(sample_value, na.rm = TRUE))
 ```
 
 
@@ -743,10 +753,8 @@ Time-series abundance plots like this one can provide useful insights into seaso
 **Tip:** Remember to save your graphic:
 
 
-
-``` r
-ggsave("daily_abundance_goro.pdf", plot = daily_abundance_plot_goro)
-#> Saving 7 x 5 in image
+```r
+ggsave("daily_abundance_all.pdf", plot = daily_abundance_plot_all)
 ```
 :::
 
@@ -764,9 +772,9 @@ We can achieve this by developing our time series plot to include multiple locat
 
 ``` r
 daily_abundance_all_locations <- mosquito_data %>%
-group_by(sample_location, sample_start_date) %>%
-summarise(total_abundance = sum(sample_value, na.rm = TRUE),
-.groups = "keep")
+  group_by(sample_location, sample_start_date) %>%
+  summarise(total_abundance = sum(sample_value, na.rm = TRUE),
+    .groups = "keep")
 ```
 
 
@@ -784,20 +792,20 @@ To visualise the data, we will generate a time-series abundance plot as we did b
 
 ``` r
 daily_abundance_plot_all <- ggplot(
-daily_abundance_all_locations,
-aes(x = sample_start_date, y = total_abundance, group = sample_location)
+  daily_abundance_all_locations,
+  aes(x = sample_start_date, y = total_abundance, group = sample_location)
 ) +
-geom_line(colour = "darkturquoise") +
-labs(
-title = "Abundance of Culex pipiens Across Locations Over Time",
-x = "Date",
-y = "Abundance"
-)
+  geom_line(colour = "darkturquoise") +
+  labs(
+    title = "Abundance of Culex pipiens Across Locations Over Time",
+    x = "Date",
+    y = "Abundance"
+  )
 
 daily_abundance_plot_all
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 
 This is the visualisation we wanted, but it looks a bit messy. All the lines are displayed in the same colour, which makes the plot difficult to read. We can see patterns of abundance change over time, but it is difficult to distinguish between different locations. 
@@ -812,21 +820,21 @@ One option to improve our visualisation and to help distinguish between location
 
 ``` r
 daily_abundance_plot_all <- ggplot(
-daily_abundance_all_locations,
-aes(x = sample_start_date, y = total_abundance, colour = sample_location)
+  daily_abundance_all_locations,
+  aes(x = sample_start_date, y = total_abundance, colour = sample_location)
 ) +
-geom_line() +
-labs(
-title = "Abundance of Culex pipiens Across Locations Over Time",
-x = "Date",
-y = "Abundance",
-colour = "Sampling Location"
-)
+  geom_line() +
+  labs(
+    title = "Abundance of Culex pipiens Across Locations Over Time",
+    x = "Date",
+    y = "Abundance",
+    colour = "Sampling Location"
+  )
 
 daily_abundance_plot_all
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 
 By adding colour, each line now represents a different sampling location more clearly, with a key detailing the line colour for each location. This makes it easier to identify patterns across locations. 
@@ -843,10 +851,8 @@ By plotting both location and time together, we can identify patterns in the dat
 **Tip:** Remember to save your graphic:
 
 
-
-``` r
+```r
 ggsave("daily_abundance_all.pdf", plot = daily_abundance_plot_all)
-#> Saving 7 x 5 in image
 ```
 :::
 
@@ -894,7 +900,7 @@ daily_abundance_plot_faceted <- ggplot(
 daily_abundance_plot_faceted
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
 
 By separating each sampling location into its own panel, the patterns in the data become much clearer:
@@ -931,7 +937,7 @@ daily_abundance_plot_faceted_Y <- ggplot(
 daily_abundance_plot_faceted_Y
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 :::
 
 
@@ -967,7 +973,7 @@ Let’s have a go at building on the earlier examples and consider how complex v
 daily_abundance_plot_faceted_Y
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-21-1.png" width="672" />
 
 
 ::: {.rmdtip}
@@ -1065,7 +1071,7 @@ This activity contributes to experience in collaborative critique, a useful skil
 
 
 ### Graph 1
-Dataset: [group1&2_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1%262_data.csv)
+Dataset: [group1_and_2_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1_and_2_data.csv)
 
 
 Flawed code:
@@ -1073,11 +1079,9 @@ Flawed code:
 
 
 ``` r
-library("ggplot2")
 library("tidyverse")
-library("lubridate")
 
-group1_data <- read.csv("data/group1&2_data.csv")
+group1_data <- read.csv("data/group1_and_2_data.csv")
 
 group1_data$sample_start_date <- as.Date(group1_data$sample_start_date)
 
@@ -1098,11 +1102,11 @@ group1_plot <- ggplot(daily_abundance_all,
 group1_plot
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 
 
 ### Graph 2
-Dataset: [group1&2_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1%262_data.csv)
+Dataset: [group1_and_2_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1_and_2_data.csv)
 
 
 Flawed code:
@@ -1110,11 +1114,9 @@ Flawed code:
 
 
 ``` r
-library("ggplot2")
 library("tidyverse")
-library("lubridate")
 
-group2_data <- read.csv("data/group1&2_data.csv")
+group2_data <- read.csv("data/group1_and_2_data.csv")
 
 group2_data_cadeo <- group2_data %>%
   filter(sample_location == "Cadeo")
@@ -1133,11 +1135,11 @@ group2_plot <- ggplot(group2_data_cadeo,
 group2_plot
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-25-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-23-1.png" width="672" />
 
 
 ### Graph 3
-Dataset: [group3&4_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3%264_data.csv)
+Dataset: [group3_and_4_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3_and_4_data.csv)
 
 
 Flawed code:
@@ -1145,11 +1147,9 @@ Flawed code:
 
 
 ``` r
-library("ggplot2")
 library("tidyverse")
-library("lubridate")
 
-group3_data <- read.csv("data/group3&4_data.csv")
+group3_data <- read.csv("data/group3_and_4_data.csv")
 
 group3_data$sample_start_date <- as.Date(group3_data$sample_start_date)
 
@@ -1165,11 +1165,11 @@ group3_plot <- ggplot(daily_abundance,
 group3_plot
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-26-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-24-1.png" width="672" />
 
 
 ### Graph 4
-Dataset: [group3&4_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3%264_data.csv)
+Dataset: [group3_and_4_data.csv](https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3_and_4_data.csv)
 
 
 Flawed code:
@@ -1177,11 +1177,9 @@ Flawed code:
 
 
 ``` r
-library("ggplot2")
 library("tidyverse")
-library("lubridate")
 
-group4_data <- read.csv("data/group3&4_data.csv")
+group4_data <- read.csv("data/group3_and_4_data.csv")
 
 group4_data$sample_start_date <- as.Date(group4_data$sample_start_date)
 
@@ -1204,7 +1202,7 @@ group4_plot
 #> • colour : "Sampling Location"
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-27-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-25-1.png" width="672" />
 
 
 ## Communicating to Different Audiences 
@@ -1272,7 +1270,7 @@ theme_minimal() +
 daily_abundance_plot_goro
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-28-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-26-1.png" width="672" />
 
 
 We can see that applying this theme removes the background shading and uses simple black and grey colours, resulting in a clean and easily readable visualisation. 

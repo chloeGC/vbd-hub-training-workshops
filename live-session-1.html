@@ -152,9 +152,7 @@
 <p>In the <strong>Pre-Live Session</strong> content, we plotted the abundance of ticks across two sampling locations. To do this, we used a scatter plot to view the individual observations so that we could practice identifying patterns in the data. However, in VBD research, we would typically use a bar plot to visualise abundance across multiple locations.</p>
 <p>Let’s start by downloading <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/mosquito_subset_wrangled.csv">mosquito_subset_wrangled.csv</a>. Open this dataset in RStudio and load the required packages:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://lubridate.tidyverse.org">"lubridate"</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mosquito_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/mosquito_subset_wrangled.csv"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 1991 Columns: 14</span></span>
@@ -166,24 +164,30 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre></div>
+<div class="rmdnote">
+<p><strong>Note:</strong> <code>tidyverse</code> is an all-encompassing package that contains a bunch of extra packages.</p>
+<p>Here we will mostly be using functions from the <code>ggplot2</code> and <code>lubridate</code> packages, but we can just load them all using <code>tidyverse</code>.</p>
+</div>
 <p>As our data involves multiple samples at the same site, we next want to summarise the abundance data for each location. We do this by grouping by location using the <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> function, then summarising the abundance per location as the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> and <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code> using the <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> function:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">abundance_per_location</span> <span class="op">&lt;-</span> <span class="va">mosquito_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sample_location</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
-<span>mean_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>se_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">sample_value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sample_location</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>    mean_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    se_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">sample_value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>We can use <code>ggplot2</code> to visualise the abundance of mosquitos at multiple sampling locations by using similar code to that in the <strong>Pre- Live Session</strong> content. We start by stating our dataset and which variables we want on the x- and y-axes:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="live-session-1.html#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(abundance_per_location,</span>
-<span id="cb12-2"><a href="live-session-1.html#cb12-2" tabindex="-1"></a><span class="fu">aes</span>(<span class="at">x =</span> sample_location, <span class="at">y =</span> mean_abundance)) <span class="sc">+</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="live-session-1.html#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb12-2"><a href="live-session-1.html#cb12-2" tabindex="-1"></a>  abundance_per_location,</span>
+<span id="cb12-3"><a href="live-session-1.html#cb12-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> sample_location, <span class="at">y =</span> mean_abundance)</span>
+<span id="cb12-4"><a href="live-session-1.html#cb12-4" tabindex="-1"></a>  ) <span class="sc">+</span></span></code></pre></div>
 <p>This time, instead of using <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code>, we will use <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a></code>. This tells R that we want to plot bars with whiskers (vertical error lines):</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="live-session-1.html#cb13-1" tabindex="-1"></a><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"darkturquoise"</span>) <span class="sc">+</span></span>
-<span id="cb13-2"><a href="live-session-1.html#cb13-2" tabindex="-1"></a><span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(</span>
-<span id="cb13-3"><a href="live-session-1.html#cb13-3" tabindex="-1"></a><span class="at">ymin =</span> mean_abundance <span class="sc">-</span> se_abundance,</span>
-<span id="cb13-4"><a href="live-session-1.html#cb13-4" tabindex="-1"></a><span class="at">ymax =</span> mean_abundance <span class="sc">+</span> se_abundance</span>
-<span id="cb13-5"><a href="live-session-1.html#cb13-5" tabindex="-1"></a>),</span>
-<span id="cb13-6"><a href="live-session-1.html#cb13-6" tabindex="-1"></a><span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span></code></pre></div>
+<span id="cb13-2"><a href="live-session-1.html#cb13-2" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(</span>
+<span id="cb13-3"><a href="live-session-1.html#cb13-3" tabindex="-1"></a>    <span class="at">ymin =</span> mean_abundance <span class="sc">-</span> se_abundance,</span>
+<span id="cb13-4"><a href="live-session-1.html#cb13-4" tabindex="-1"></a>    <span class="at">ymax =</span> mean_abundance <span class="sc">+</span> se_abundance</span>
+<span id="cb13-5"><a href="live-session-1.html#cb13-5" tabindex="-1"></a>  ),</span>
+<span id="cb13-6"><a href="live-session-1.html#cb13-6" tabindex="-1"></a>  <span class="at">width =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span></code></pre></div>
 <p>This code is starting to look heavy, but it is just building aesthetics.</p>
 <p>In <code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col()</a></code>, we can use <code>fill</code> to set the colour of the bars.</p>
 <p>In <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a></code>, we can use <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> to set the aesthetics. In this case:</p>
@@ -196,31 +200,35 @@
 <p>The final chunk of code is adding labels using <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs()</a></code> - this is the same as we practised in the <strong>Pre- Live Session</strong> content:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
-<span>title <span class="op">=</span> <span class="st">"Mean Abundance of Culex pipiens Across Locations"</span>,</span>
-<span>x <span class="op">=</span> <span class="st">"Sampling Location"</span>,</span>
-<span>y <span class="op">=</span> <span class="st">"Mean Abundance"</span></span>
+<span>  title <span class="op">=</span> <span class="st">"Mean Abundance of Culex pipiens Across Locations"</span>,</span>
+<span>  x <span class="op">=</span> <span class="st">"Sampling Location"</span>,</span>
+<span>  y <span class="op">=</span> <span class="st">"Mean Abundance"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>If we piece those chunks of code together, we can generate our visualisation:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">abundance_plot_across_locations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">abundance_per_location</span>,</span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_location</span>, y <span class="op">=</span> <span class="va">mean_abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"darkturquoise"</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
-<span>ymin <span class="op">=</span> <span class="va">mean_abundance</span> <span class="op">-</span> <span class="va">se_abundance</span>,</span>
-<span>ymax <span class="op">=</span> <span class="va">mean_abundance</span> <span class="op">+</span> <span class="va">se_abundance</span></span>
-<span><span class="op">)</span>,</span>
-<span>width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
-<span>title <span class="op">=</span> <span class="st">"Mean Abundance of Culex pipiens Across Locations"</span>,</span>
-<span>x <span class="op">=</span> <span class="st">"Sampling Location"</span>,</span>
-<span>y <span class="op">=</span> <span class="st">"Mean Abundance"</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">abundance_plot_across_locations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">abundance_per_location</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_location</span>, y <span class="op">=</span> <span class="va">mean_abundance</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"darkturquoise"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span></span>
+<span>      ymin <span class="op">=</span> <span class="va">mean_abundance</span> <span class="op">-</span> <span class="va">se_abundance</span>,</span>
+<span>      ymax <span class="op">=</span> <span class="va">mean_abundance</span> <span class="op">+</span> <span class="va">se_abundance</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    width <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Mean Abundance of Culex pipiens Across Locations"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Sampling Location"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Mean Abundance"</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">abundance_plot_across_locations</span></span></code></pre></div>
 <div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 <div class="rmdtip">
 <p><strong>Tip:</strong> Remember to save your graphic:</p>
-<p><code>ggsave("abundance_across_locations.pdf", plot = abundance_plot_across_locations)</code></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"daily_abundance_all.pdf"</span>, plot <span class="op">=</span> <span class="va">daily_abundance_plot_all</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>We can now use this visualisation to compare abundance patterns across sampling sites:</p>
 <ul>
@@ -242,9 +250,9 @@
 <p>Understanding these patterns is particularly important in VBD research because vector populations are often strongly influenced by seasonal environmental conditions, including temperature, rainfall, and host availability.</p>
 <p>In the <strong>Pre- Live Session</strong> content, we grouped observations by months. We are now going to visualise abundance as a true time-series by using the sampling date to show how abundance changes over continuous time for a single species.</p>
 <p>Later in this session, we will consider abundance over multiple locations, but for now, let’s filter the data to visualise abundance over time at a single location - <code>Goro</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mosquito_data_goro</span> <span class="op">&lt;-</span> <span class="va">mosquito_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sample_location</span> <span class="op">==</span> <span class="st">"Goro"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sample_location</span> <span class="op">==</span> <span class="st">"Goro"</span><span class="op">)</span></span></code></pre></div>
 <p>When working with time-series data, it is useful to understand how R stores and processes dates. In a dataset, dates are typically stored as characters (plain text format). Although an entry like “2023-06-15” might look like a date to us, R does not automatically recognise this as a date and will treat it as a character string.</p>
 <p>When we generate a plot, <code>ggplot2</code> will respond to how a variable is stored. For example, variables in character format will be plotted as categorical, whereas variables in date format will be plotted along a continuous time axis.</p>
 <p>In time-series visualisations, a continuous time axis ensures:</p>
@@ -254,27 +262,27 @@
 <li>Trends over time can be interpreted accurately.</li>
 </ul>
 <p>To convert our date column from characters to date objects, we can use the <code><a href="https://rdrr.io/r/base/as.Date.html">as.Date()</a></code> function:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mosquito_data_goro</span><span class="op">$</span><span class="va">sample_start_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="va">mosquito_data_goro</span><span class="op">$</span><span class="va">sample_start_date</span><span class="op">)</span></span></code></pre></div>
 <p>The <code><a href="https://rdrr.io/r/base/as.Date.html">as.Date()</a></code> function is used to convert a column into a proper date format so that R and <code>ggplot2</code> can recognise these as dates.</p>
 <div class="rmdcaution">
 <p><strong>Frequent mistake:</strong> If dates are messy, the plot will look messy. Ensuring the date column is in the correct data format means that R knows how to process the data correctly.</p>
 </div>
 <p>We can then build our visualisation in <code>ggplot2</code>, as we did in the <strong>Pre- Live Session</strong> content. We start by stating our dataset and which variables we want on the x- and y-axes:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="live-session-1.html#cb18-1" tabindex="-1"></a><span class="fu">ggplot</span>(mosquito_data_goro, <span class="fu">aes</span>(<span class="at">x =</span> sample_start_date, <span class="at">y =</span> sample_value)) <span class="sc">+</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="live-session-1.html#cb19-1" tabindex="-1"></a><span class="fu">ggplot</span>(mosquito_data_goro, <span class="fu">aes</span>(<span class="at">x =</span> sample_start_date, <span class="at">y =</span> sample_value)) <span class="sc">+</span></span></code></pre></div>
 <p>In the <strong>Pre- Live Session</strong> content, we used <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code> to generate a simple abundance plot with scatter points so that we could see the individual observations across specific months (categories). For true time-series, we want to visualise time as a continuous measure across observation dates, so it is more appropriate to use a line plot. To do this, we replace <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code> with <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="live-session-1.html#cb19-1" tabindex="-1"></a><span class="fu">ggplot</span>(mosquito_data_goro, <span class="fu">aes</span>(<span class="at">x =</span> sample_start_date, <span class="at">y =</span> sample_value)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="live-session-1.html#cb19-2" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span></code></pre></div>
-<p>We can start to consider the visual appeal of our graphics, starting with the colour of the line. Within the <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code> function, we can set the colour of the line:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="live-session-1.html#cb20-1" tabindex="-1"></a><span class="fu">ggplot</span>(mosquito_data_goro, <span class="fu">aes</span>(<span class="at">x =</span> sample_start_date, <span class="at">y =</span> sample_value)) <span class="sc">+</span></span>
-<span id="cb20-2"><a href="live-session-1.html#cb20-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"darkturquoise"</span>) <span class="sc">+</span></span></code></pre></div>
+<span id="cb20-2"><a href="live-session-1.html#cb20-2" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span></code></pre></div>
+<p>We can start to consider the visual appeal of our graphics, starting with the colour of the line. Within the <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code> function, we can set the colour of the line:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="live-session-1.html#cb21-1" tabindex="-1"></a><span class="fu">ggplot</span>(mosquito_data_goro, <span class="fu">aes</span>(<span class="at">x =</span> sample_start_date, <span class="at">y =</span> sample_value)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="live-session-1.html#cb21-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"darkturquoise"</span>) <span class="sc">+</span></span></code></pre></div>
 <p>Setting line colours can be useful when plotting multiple lines on the same graphic. We will further develop this idea later in this session.</p>
 <div class="rmdtip">
 <p><strong>Tip:</strong> Although visually pleasing graphics are nice to look at, it is often more important to understand how to develop effective visualisations that accurately communicate your data and patterns.</p>
 <p>We will cover both skills in this workshop, but in general, try to consider that a plain but <strong>clear and interpretable graphic is often more useful than a flashy graphic with poor accuracy and readability</strong>.</p>
 </div>
 <p>We can then add our title and axes labels using <code><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs()</a></code> as we did in the <strong>Pre- Live Session</strong> content, and generate our abundance plot:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">time_series_plot_goro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">mosquito_data_goro</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">sample_value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"darkturquoise"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
@@ -286,12 +294,12 @@
 <span><span class="va">time_series_plot_goro</span></span></code></pre></div>
 <div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
 <p>Oh dear, this graphic looks rather messy! Although we have used the correct code and ensured our date column is in the correct format, our visualisation is still difficult to read and interpret. This is because real-world VBD data often includes multiple samples collected on the same data. To create a more effective time-series visualisation, we need to summarise these samples into a single value per time point:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">daily_abundance_goro</span> <span class="op">&lt;-</span> <span class="va">mosquito_data_goro</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sample_start_date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>total_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can now use the summarised daily abundance data to try plotting again, this time using <code>daily_abundance_goro</code> as our data and <code>total_abundance</code> on our y-axis:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">daily_abundance_goro</span> <span class="op">&lt;-</span> <span class="va">mosquito_data_goro</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sample_start_date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>total_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>We can now use the summarised daily abundance data to try plotting again, this time using <code>daily_abundance_goro</code> as our data and <code>total_abundance</code> on our y-axis:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_plot_goro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">daily_abundance_goro</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"darkturquoise"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
@@ -317,9 +325,8 @@
 </ul>
 <div class="rmdtip">
 <p><strong>Tip:</strong> Remember to save your graphic:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"daily_abundance_goro.pdf"</span>, plot <span class="op">=</span> <span class="va">daily_abundance_plot_goro</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Saving 7 x 5 in image</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"daily_abundance_all.pdf"</span>, plot <span class="op">=</span> <span class="va">daily_abundance_plot_all</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div id="abundance-across-multiple-locations-over-time" class="section level3" number="3.4.3">
@@ -329,48 +336,48 @@
 <p>In the previous examples, we have visualised abundance at multiple sampling locations, and abundance changes over time for a single location, but what if we combine these to look at abundance across multiple locations over time?</p>
 <p>In VBD research, data are commonly collected from multiple sampling sites, and we often want to compare how vector abundance varies across these locations simultaneously.</p>
 <p>We can achieve this by developing our time series plot to include multiple locations. Before, we grouped the data by the date alone, but this time, we want to group the data by both sampling location and date, so that abundance is calculated separately for each location over time:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_all_locations</span> <span class="op">&lt;-</span> <span class="va">mosquito_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sample_location</span>, <span class="va">sample_start_date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>total_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>.groups <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">sample_location</span>, <span class="va">sample_start_date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>total_abundance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sample_value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"keep"</span><span class="op">)</span></span></code></pre></div>
 <div class="rmdcaution">
 <p><strong>Frequent mistake:</strong> Be sure to add <code>.groups = "keep"</code> when adding multiple variables to group_by. Without this, some packages in R will drop variables after the first <code>group_by</code> variable, and you will see a message like this:</p>
 <p><code>summarise() has grouped output by 'sample_location'. You can override using the .groups argument.</code></p>
 </div>
 <p>To visualise the data, we will generate a time-series abundance plot as we did before, but this time, we will use the <code>group = sample_location</code> argument within <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> to tell R that we want a separate line for each different sampling location:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_plot_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span><span class="va">daily_abundance_all_locations</span>,</span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span>, group <span class="op">=</span> <span class="va">sample_location</span><span class="op">)</span></span>
+<span>  <span class="va">daily_abundance_all_locations</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span>, group <span class="op">=</span> <span class="va">sample_location</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"darkturquoise"</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
-<span>title <span class="op">=</span> <span class="st">"Abundance of Culex pipiens Across Locations Over Time"</span>,</span>
-<span>x <span class="op">=</span> <span class="st">"Date"</span>,</span>
-<span>y <span class="op">=</span> <span class="st">"Abundance"</span></span>
-<span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"darkturquoise"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Abundance of Culex pipiens Across Locations Over Time"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Date"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Abundance"</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">daily_abundance_plot_all</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-17-1.png" width="672"></div>
 <p>This is the visualisation we wanted, but it looks a bit messy. All the lines are displayed in the same colour, which makes the plot difficult to read. We can see patterns of abundance change over time, but it is difficult to distinguish between different locations.</p>
 <p>What we are seeing here is that <strong>more complex visualisations are not always better visualisations</strong>, especially if interpretation is limited.</p>
 <p>One option to improve our visualisation and to help distinguish between locations is to assign a different colour to each sampling location. To do this, we map <code>sampling_location</code> to the <code>colour</code> aesthetic within <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code>, rather than assigning the line colour within <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code>:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_plot_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
-<span><span class="va">daily_abundance_all_locations</span>,</span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span>, colour <span class="op">=</span> <span class="va">sample_location</span><span class="op">)</span></span>
+<span>  <span class="va">daily_abundance_all_locations</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span>, colour <span class="op">=</span> <span class="va">sample_location</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
-<span>title <span class="op">=</span> <span class="st">"Abundance of Culex pipiens Across Locations Over Time"</span>,</span>
-<span>x <span class="op">=</span> <span class="st">"Date"</span>,</span>
-<span>y <span class="op">=</span> <span class="st">"Abundance"</span>,</span>
-<span>colour <span class="op">=</span> <span class="st">"Sampling Location"</span></span>
-<span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Abundance of Culex pipiens Across Locations Over Time"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Date"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Abundance"</span>,</span>
+<span>    colour <span class="op">=</span> <span class="st">"Sampling Location"</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">daily_abundance_plot_all</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
 <p>By adding colour, each line now represents a different sampling location more clearly, with a key detailing the line colour for each location. This makes it easier to identify patterns across locations.</p>
 <p>By plotting both location and time together, we can identify patterns in the data:</p>
 <ul>
@@ -380,9 +387,8 @@
 </ul>
 <div class="rmdtip">
 <p><strong>Tip:</strong> Remember to save your graphic:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"daily_abundance_all.pdf"</span>, plot <span class="op">=</span> <span class="va">daily_abundance_plot_all</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Saving 7 x 5 in image</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"daily_abundance_all.pdf"</span>, plot <span class="op">=</span> <span class="va">daily_abundance_plot_all</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>However, while using colour can definitely improve graphics, visualisations can still feel overcrowded when too many groups are displayed together. For example, our visualisation plots 8 different locations on the same graph. Overlapping lines and similar temporal patterns can make it difficult to fully interpret the data.</p>
 <p>Additionally, using colour alone can cause difficulties with accessibility to all audiences, which we will address later in this session.</p>
@@ -401,7 +407,7 @@
 </ul>
 <p>We can apply faceting to our previous time-series visualisation to separate each sampling location into its own panel, rather than using different colours. This directly addresses the overlapping lines, improving the overall clarity and readability.</p>
 <p>To do this, we add <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code> to our existing code, which tells R that we want to generate several panels separated by location:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_plot_faceted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">daily_abundance_all_locations</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span><span class="op">)</span></span>
@@ -415,7 +421,7 @@
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">daily_abundance_plot_faceted</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-21-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
 <p>By separating each sampling location into its own panel, the patterns in the data become much clearer:</p>
 <ul>
 <li>Seasonal trends are still evident across all locations, but we are now able to see how these patterns vary between locations more easily.</li>
@@ -426,7 +432,7 @@
 <div class="rmdnote">
 <p><strong>Optional refinement:</strong> In our current visualisation, all panels share the same y-axis scale, which is good for comparisons. However, this scale also means extreme peaks are visually dominant, and locations with smaller peaks look flat in comparison.</p>
 <p>We can add <code>scales = "free_y"</code> within <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code> to adjust the y-axis scales across the panels, allowing us to visualise the patterns per location in greater detail:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_plot_faceted_Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">daily_abundance_all_locations</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span><span class="op">)</span></span>
@@ -440,7 +446,7 @@
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">daily_abundance_plot_faceted_Y</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
 </div>
 </div>
 <div id="applying-these-principles-to-multiple-species-and-datasets" class="section level3" number="3.4.5">
@@ -465,9 +471,9 @@
 <p>In the <strong>Pre- Live Session content</strong>, we looked at how simple visualisations can help us identify patterns in data and develop initial hypotheses.</p>
 <p>Real-world VBD datasets are often complex, containing observations collected across multiple locations, species, and time periods. When visualised, these datasets can reveal more nuanced patterns, allowing researchers to develop more detailed and targeted hypotheses.</p>
 <p>Let’s have a go at building on the earlier examples and consider how complex visualisations can help us refine our scientific questions. Based on this visualisation, what hypotheses could you generate about mosquito abundance?</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_plot_faceted_Y</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-23-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-21-1.png" width="672"></div>
 <div class="rmdtip">
 <p><strong>Tip:</strong> Consider these prompts to formulate your hypotheses:</p>
 <ul>
@@ -549,14 +555,12 @@ Unusual observations</li>
 <h3>
 <span class="header-section-number">3.7.1</span> Graph 1<a class="anchor" aria-label="anchor" href="#graph-1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1%262_data.csv">group1&amp;2_data.csv</a></p>
+<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1_and_2_data.csv">group1_and_2_data.csv</a></p>
 <p>Flawed code:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://lubridate.tidyverse.org">"lubridate"</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">group1_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group1&amp;2_data.csv"</span><span class="op">)</span></span>
+<span><span class="va">group1_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group1_and_2_data.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">group1_data</span><span class="op">$</span><span class="va">sample_start_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="va">group1_data</span><span class="op">$</span><span class="va">sample_start_date</span><span class="op">)</span></span>
 <span></span>
@@ -575,20 +579,18 @@ Unusual observations</li>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">group1_plot</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-24-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-22-1.png" width="672"></div>
 </div>
 <div id="graph-2" class="section level3" number="3.7.2">
 <h3>
 <span class="header-section-number">3.7.2</span> Graph 2<a class="anchor" aria-label="anchor" href="#graph-2"><i class="fas fa-link"></i></a>
 </h3>
-<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1%262_data.csv">group1&amp;2_data.csv</a></p>
+<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group1_and_2_data.csv">group1_and_2_data.csv</a></p>
 <p>Flawed code:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://lubridate.tidyverse.org">"lubridate"</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">group2_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group1&amp;2_data.csv"</span><span class="op">)</span></span>
+<span><span class="va">group2_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group1_and_2_data.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">group2_data_cadeo</span> <span class="op">&lt;-</span> <span class="va">group2_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">sample_location</span> <span class="op">==</span> <span class="st">"Cadeo"</span><span class="op">)</span></span>
@@ -605,20 +607,18 @@ Unusual observations</li>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">group2_plot</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-25-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-23-1.png" width="672"></div>
 </div>
 <div id="graph-3" class="section level3" number="3.7.3">
 <h3>
 <span class="header-section-number">3.7.3</span> Graph 3<a class="anchor" aria-label="anchor" href="#graph-3"><i class="fas fa-link"></i></a>
 </h3>
-<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3%264_data.csv">group3&amp;4_data.csv</a></p>
+<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3_and_4_data.csv">group3_and_4_data.csv</a></p>
 <p>Flawed code:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://lubridate.tidyverse.org">"lubridate"</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">group3_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group3&amp;4_data.csv"</span><span class="op">)</span></span>
+<span><span class="va">group3_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group3_and_4_data.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">group3_data</span><span class="op">$</span><span class="va">sample_start_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="va">group3_data</span><span class="op">$</span><span class="va">sample_start_date</span><span class="op">)</span></span>
 <span></span>
@@ -632,20 +632,18 @@ Unusual observations</li>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">group3_plot</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-26-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-24-1.png" width="672"></div>
 </div>
 <div id="graph-4" class="section level3" number="3.7.4">
 <h3>
 <span class="header-section-number">3.7.4</span> Graph 4<a class="anchor" aria-label="anchor" href="#graph-4"><i class="fas fa-link"></i></a>
 </h3>
-<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3%264_data.csv">group3&amp;4_data.csv</a></p>
+<p>Dataset: <a href="https://github.com/One-Health-VBD-Hub/vbd-hub-training-workshops/blob/main/data/group3_and_4_data.csv">group3_and_4_data.csv</a></p>
 <p>Flawed code:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://lubridate.tidyverse.org">"lubridate"</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyverse.tidyverse.org">"tidyverse"</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">group4_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group3&amp;4_data.csv"</span><span class="op">)</span></span>
+<span><span class="va">group4_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/group3_and_4_data.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">group4_data</span><span class="op">$</span><span class="va">sample_start_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="va">group4_data</span><span class="op">$</span><span class="va">sample_start_date</span><span class="op">)</span></span>
 <span></span>
@@ -666,7 +664,7 @@ Unusual observations</li>
 <span><span class="va">group4_plot</span></span>
 <span><span class="co">#&gt; Ignoring unknown labels:</span></span>
 <span><span class="co">#&gt; • colour : "Sampling Location"</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-27-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-25-1.png" width="672"></div>
 </div>
 </div>
 <div id="communicating-to-different-audiences" class="section level2" number="3.8">
@@ -707,7 +705,7 @@ Unusual observations</li>
 </ul>
 <p>All of these help to improve the clarity and readability of a visualisation.</p>
 <p>Themes can be applied to any ggplot using the <code><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme()</a></code> function or by using one of the existing <code>ggplot2</code> theme presets. For example, we can apply <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal()</a></code>, a simple theme from <code>ggplot2</code>, to one of our existing plots:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">daily_abundance_plot_goro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">daily_abundance_goro</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sample_start_date</span>, y <span class="op">=</span> <span class="va">total_abundance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -718,7 +716,7 @@ Unusual observations</li>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">daily_abundance_plot_goro</span></span></code></pre></div>
-<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-28-1.png" width="672"></div>
+<div class="inline-figure"><img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-26-1.png" width="672"></div>
 <p>We can see that applying this theme removes the background shading and uses simple black and grey colours, resulting in a clean and easily readable visualisation.</p>
 <p><code>ggplot2</code> has several themes you can use - some commonly used themes include:</p>
 <ul>
@@ -733,13 +731,13 @@ Unusual observations</li>
 <span class="header-section-number">3.9.2</span> Improving Visual Clarity<a class="anchor" aria-label="anchor" href="#improving-visual-clarity"><i class="fas fa-link"></i></a>
 </h3>
 <p>When we visualise our data, we want key patterns to stand out, particularly when presenting our data to others. We can achieve this by improving the <strong>contrast</strong>, for example, increasing the line width in a time series plot:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>linewidth <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span></span></code></pre></div>
 <p>Or changing point style in a scatter plot:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">17</span><span class="op">)</span></span></code></pre></div>
 <p>Another simple method for improving visual clarity that people often forget is clear <strong>labels</strong> and <strong>titles</strong>. We have already learnt how to add these when using <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
 <span>    title <span class="op">=</span> <span class="st">"Abundance of Culex pipiens Over Time"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"Date"</span>,</span>
