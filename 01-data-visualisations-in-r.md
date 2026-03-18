@@ -71,7 +71,7 @@ If you need additional support through this workshop:
 - The [**Forum**](http://forum.vbdhub.org) is a good place to discuss queries with fellow participants.
 - Demonstrators will be available to help during the **Live Session**.
 - During the **Challenge Task**, a specific discussion on the Forum will be open to ask demonstrators questions. One-to-one video support will also be available if required.
-- For technical support (e.g. trouble accessing content or joining the Teams link), please contact (email). This is **not** for coding or statistical support.
+- For technical support (e.g. trouble accessing content or joining the Teams link), please contact support@vbdhub.org. This is **not** for coding or statistical support.
 
 
 ## Installing Packages
@@ -102,6 +102,7 @@ install.packages(c("ggplot2", "dplyr", "tidyr"))
 
 
 # Pre- Live Session Content
+
 
 
 [link to optional recap of linear models and basic plots](#recap)
@@ -210,7 +211,7 @@ You should now see a simple abundance plot in the “Plot” window of RStudio, 
 tick_abundance_location
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
 
 ::: {.rmdtip}
@@ -298,7 +299,7 @@ You should now see a new simple abundance plot in the “Plot” window of RStud
 mosquito_abundance_monthly
 ```
 
-<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 
 
 Don’t forget to save your plot:
@@ -374,63 +375,212 @@ Please make sure you have Teams set up on your device and that your microphone i
 # Live Session
 
 
-::: {.rmdcaution}
-**Caution:** This content is not yet complete. Come back soon.
+## Live Session Schedule 
+
+ - Introduction
+ - Recap pre- Live Session
+ - Build on Abundance Plots
+ - Drawing Hypotheses from Complex Plots
+ - BREAK
+ - What Makes a Good Visualisation?
+ - Collaborative task
+ - Share Collaborative Task Results
+ - BREAK
+ - Communicating to Different Audiences
+ - Visualisation Themes & Accessible Graphics
+ - Prepare for Challenge Task & Conclusion
+
+
+## Introduction 
+Welcome to the **One Health Vector-Borne Diseases Hub Online Training**. My name is Chloё, and I work with the VBD Hub to develop training and workshops, like this session today. We are also joined by our lovely demonstrators, who will be available throughout the session to provide support and answer any questions you have. 
+
+
+**VBD Hub** is a non-profit, open-source project funded by UKRI and Defra, which aims to improve accessibility and information sharing. To do this, the project builds infrastructure and tools to allow researchers to combine knowledge and share data within the VBD research community and with policymakers. 
+
+
+Our focus today is **Visualisations in R**. By the end of this training, you should be able to: 
+
+- Generate accessible visualisations to communicate complex data to different audiences and stakeholders.
+- Formulate data-driven hypotheses from effective data visualisations.
+- Build collaborative, professional connections within the VBD community.
+
+
+In the **Pre- Live Session** content, you will have seen links to recap materials and cheat sheets. Feel free to use these if you need any reminders. If you need additional support, the **Forum** is a good first point of call where you can discuss queries with fellow participants. Our **demonstrators** will keep an eye on the chat during this call and can provide more support during tasks. 
+
+
+The written version of this content is now available on the **VBD Hub website** if you wish to follow along with this format. These written materials will be available for you to access in future, including the code examples. You are welcome to follow along with the walkthrough code in this **Live Session**, but there is no pressure, and you can have a go at the code yourself later. 
+
+
+If you have any technical difficulties or lose connection, try joining the meeting again when you can. If you need technical support, please contact support@vbdhub.org (**note**: this is only for technical support, not statistical support or questions on the course content). 
+
+
+We have breaks scheduled into this session, but if you need to step away for a few minutes at all, feel free to do so quietly. 
+
+
+## Recap Pre- Live Session Content 
+In the **Pre- Live Session** content, we covered:
+
+- Commonly used visualisations in VBD research, notably abundance plots.
+- What visualisations can tell us about data, and how this can support exploratory analysis.
+- How to use observed patterns from simple visualisations to formulate data-driven hypotheses.
+
+
+During the tasks, we tried identifying patterns and details out the datasets and proposing hypotheses from our visualisations:
+
+- 1. What patterns and data details can you identify from the **Monthly Mosquito Abundance across 2023** plot?
+- 2. What hypothesis do you propose for the visualisation in **Task 1: Tick Abundance Across Sampling Locations**?
+- 3. What hypothesis do you propose for the visualisation in **Task 2: Monthly Mosquito Abundance across 2023**?
+
+
+## Building on Abundance Plots 
+In the **Pre- Live Session** content, we covered simple abundance plots and considered how these visualisations can be used to help identify potential patterns in exploratory analysis of vector surveillance data. 
+
+
+However, these simple abundance plots often only tell us part of the story. In VBD research, we typically want to understand *how* abundance patterns vary across time, space, and species. 
+
+
+Common VBD research questions consider:
+
+- Does vector abundance change throughout the year?
+- Do certain locations consistently report higher vector counts?
+- Do different species show distinct seasonal patterns?
+
+
+In this session, we will build on the basic abundance plots introduced in the **Pre- Live Session** content by developing more complex visualisations using R and the `ggplot2` package.
+
+
+### Abundance Across Sampling Locations
+Vector populations often vary between locations. Differences in habitat, climate, host availability, and land use can all influence vector abundance. As a result, combining data from multiple sampling sites into a single trend may obscure important spatial patterns. 
+
+
+In the **Pre-Live Session** content, we plotted the abundance of ticks across two sampling locations. To do this, we used a scatter plot to view the individual observations so that we could practice identifying patterns in the data. However, in VBD research, we would typically use a bar plot to visualise abundance across multiple locations.
+
+
+Let’s start by downloading mosquito_subset_wrangled.csv. Open this dataset in RStudio and load the required packages:
+
+
+``` r
+library("ggplot2")
+library("tidyverse")
+library("lubridate")
+
+mosquito_data <- read_csv("mosquito_subset_wrangled.csv")
+```
+
+
+As our data involves multiple samples at the same site, we next want to summarise the abundance data for each location. We do this by grouping by location using the `group_by()` function, then summarising the abundance per location as the `mean()` and `sd()` using the `summarise()` function:
+
+``` r
+abundance_per_location <- mosquito_data %>%
+group_by(sample_location) %>%
+summarise(
+mean_abundance = mean(sample_value, na.rm = TRUE),
+se_abundance = sd(sample_value, na.rm = TRUE) / sqrt(sum(!is.na(sample_value)))
+)
+```
+
+
+We can use `ggplot2` to visualise the abundance of mosquitos at multiple sampling locations by using similar code to that in the **Pre- Live Session** content. We start by stating our dataset and which variables we want on the x- and y-axes:
+
+
+```r
+ggplot(abundance_per_location,
+aes(x = sample_location, y = mean_abundance)) +
+```
+
+
+This time, instead of using `geom_point()`, we will use `geom_col()` and `geom_errorbar()`. This tells R that we want to plot bars with whiskers (vertical error lines):
+
+
+``` r
+geom_col(fill = "darkturquoise") +
+geom_errorbar(aes(
+ymin = mean_abundance - se_abundance,
+ymax = mean_abundance + se_abundance
+),
+width = 0.2) +
+```
+
+
+This code is starting to look heavy, but it is just building aesthetics.
+
+
+In `geom_col()`, we can use `fill` to set the colour of the bars. 
+
+
+In `geom_errorbar()`, we can use `aes()` to set the aesthetics. In this case:
+
+- We use `ymin` to set the lower end of the whisker, calculated as the mean minus the standard deviation of abundance.
+- We use `ymax` to set the upper end of the whisker, calculated as the mean plus the standard deviation of abundance.
+- `width` controls how wide the horizontal lines are at either end of the whisker.
+
+
+The final chunk of code is adding labels using `labs()` - this is the same as we practised in the **Pre- Live Session** content:
+
+
+``` r
+labs(
+title = "Mean Abundance of Culex pipiens Across Locations",
+x = "Sampling Location",
+y = "Mean Abundance"
+)
+```
+
+
+If we piece those chunks of code together, we can generate our visualisation:
+
+
+``` r
+abundance_plot_across_locations <- ggplot(abundance_per_location,
+aes(x = sample_location, y = mean_abundance)) +
+geom_col(fill = "darkturquoise") +
+geom_errorbar(aes(
+ymin = mean_abundance - se_abundance,
+ymax = mean_abundance + se_abundance
+),
+width = 0.2) +
+labs(
+title = "Mean Abundance of Culex pipiens Across Locations",
+x = "Sampling Location",
+y = "Mean Abundance"
+)
+
+abundance_plot_across_locations
+```
+
+
+
+
+
+
+
+
+
+``` r
+abundance_plot_across_locations
+```
+
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+
+
+::: {.rmdtip}
+**Tip:** Remember to save your graphic:
+
+
+`ggsave("abundance_across_locations.pdf", plot = abundance_plot_across_locations)`
 :::
 
 
-## Live Session Schedule 
-10:00 - Introduction
-10:10 - Recap pre- Live Session
-10:20 - Build on Abundance Plots
-10:40 - Drawing Hypotheses from Complex Plots
-10:50 - BREAK
-11:00 - What Makes a Good Visualisation?
-11:15 - Collaborative task
-12:00 - BREAK
-12:10 - Share Collaborative Task Results
-12:25 - Communicating to Different Audiences
-12:40 - Visualisation Themes & Accessible Graphics
-12:50 - Prepare for Challenge Task & Conclusion
+We can now use this visualisation to compare abundance patterns across sampling sites:
+
+- Mean abundance varies across locations, with Sorragna and Terre Del Reno showing the highest mean mosquito abundance, and Gattatico showing the lowest mean mosquito abundance.
+- There is a lot of variation within each location. This is consistent across the dataset, suggesting natural variation in the data to be explored further.
 
 
-## Introduction (10 mins)
-Introduce myself
+Visualisations such as this can help researchers identify potential hotspots of vector activity and guide further investigation into the ecological factors driving these patterns. For our graphic, we can see a lot of variation within each location. One way to assess this in more detail is to consider abundance over time. 
 
 
-Introduce demonstrators
 
-
-Recap Learning Objectives
-
-
-Reiterate where to find support:
-Forum
-Demonstrators
-Technical difficulties - (email)
-
-
-## Recap Pre- Live Session Content (10 mins)
-What went well?
-
-
-Common mistakes?
-
-
-Strong anonymous examples
-
-
-## Building on Abundance Plots (30 mins)
-Abundance over time
-
-
-Abundance with multiple species
-
-
-Abundance with multiple species over time
-
-
-(maybe) mention temperature
 
 
 ## Drawing Hypotheses from Complex Visualisations (10 minutes)

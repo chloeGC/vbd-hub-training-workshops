@@ -19,9 +19,10 @@ response-form
 conclusion-preparation-for-live-session
 live-session-1
 live-session-schedule
-introduction-10-mins
-recap-pre--live-session-content-10-mins
-building-on-abundance-plots-30-mins
+introduction-1
+recap-pre--live-session-content
+building-on-abundance-plots
+abundance-across-sampling-locations
 drawing-hypotheses-from-complex-visualisations-10-minutes
 what-makes-a-good-visualisation-15-mins
 collaborative-task-45-mins
@@ -36,7 +37,7 @@ level-2
 level-3
 level-4
 level-5
-introduction-1
+introduction-2
 learning-objectives-1
 prerequisites-1
 training-plan-1
@@ -57,8 +58,8 @@ data-wrangling-principles
 form-ahead-of-the-live-session
 live-session-3
 schedule
-introduction-10-mins-1
-recap-pre--live-session-content-10-mins-1
+introduction-10-mins
+recap-pre--live-session-content-10-mins
 data-wrangling-broad-5-mins
 replicatemerging-15-mins
 fix-species-name-20-mins
