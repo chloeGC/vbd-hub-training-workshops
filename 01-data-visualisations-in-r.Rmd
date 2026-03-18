@@ -103,6 +103,10 @@ install.packages(c("ggplot2", "dplyr", "tidyr"))
 
 # Pre- Live Session Content
 
+``` {r include=FALSE}
+# Force load of all relevant packages just for now. We'll re-work it later.
+library(tidyverse)
+```
 
 [link to optional recap of linear models and basic plots](#recap)
 
