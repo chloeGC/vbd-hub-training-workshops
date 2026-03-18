@@ -201,24 +201,16 @@ tick_abundance_location
 You should now see a simple abundance plot in the “Plot” window of RStudio, which looks like this:
 
 
-``` {r include=FALSE}
-tick_data <- read.csv("data/tick_dataset_wrangled.csv")
-```
 
-``` {r include=FALSE}
-library("ggplot2")
-tick_abundance_location <- ggplot(tick_data, aes(x = sample_location, y = sample_value)) +
-geom_point() +
-labs(
-x = "Sampling Location",
-y = "Tick Abundance",
-title = "Tick Abundance Across Sampling Locations"
-)
-```
 
-``` {r}
+
+
+
+``` r
 tick_abundance_location
 ```
+
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 
 ::: {.rmdtip}
@@ -297,23 +289,16 @@ mosquito_abundance_monthly
 You should now see a new simple abundance plot in the “Plot” window of RStudio, which looks like this:
 
 
-```{r include=FALSE}
-mosquito_monthly_data <- read.csv("data/mosquito_monthly_2023_subset.csv")
-```
 
-``` {r include=FALSE}
-mosquito_abundance_monthly <- ggplot(mosquito_monthly_data, aes(x = month, y = sample_value)) +
-geom_point() +
-labs(
-x = "Month",
-y = "Mosquito Abundance",
-title = "Monthly Mosquito Abundance Across 2023"
-)
-```
 
-``` {r}
+
+
+
+``` r
 mosquito_abundance_monthly
 ```
+
+<img src="01-data-visualisations-in-r_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 
 Don’t forget to save your plot:
@@ -561,204 +546,6 @@ y = "Mean Abundance"
 
 abundance_plot_across_locations
 ```
-
-
-```{r include=FALSE}
-mosquito_data <- read.csv("data/mosquito_subset_wrangled.csv")
-```
-
-```{r include=FALSE}
-abundance_per_location <- mosquito_data %>%
-group_by(sample_location) %>%
-summarise(
-mean_abundance = mean(sample_value, na.rm = TRUE),
-se_abundance = sd(sample_value, na.rm = TRUE) / sqrt(sum(!is.na(sample_value)))
-)
-```
-
-``` {r include=FALSE}
-abundance_plot_across_locations <- ggplot(abundance_per_location,
-aes(x = sample_location, y = mean_abundance)) +
-geom_col(fill = "darkturquoise") +
-geom_errorbar(aes(
-ymin = mean_abundance - se_abundance,
-ymax = mean_abundance + se_abundance
-),
-width = 0.2) +
-labs(
-title = "Mean Abundance of Culex pipiens Across Locations",
-x = "Sampling Location",
-y = "Mean Abundance"
-)
-```
-
-``` {r}
-abundance_plot_across_locations
-```
-
-
-::: {.rmdtip}
-**Tip:** Remember to save your graphic:
-
-
-`ggsave("abundance_across_locations.pdf", plot = abundance_plot_across_locations)`
-:::
-
-
-We can now use this visualisation to compare abundance patterns across sampling sites:
-
-- Mean abundance varies across locations, with Sorragna and Terre Del Reno showing the highest mean mosquito abundance, and Gattatico showing the lowest mean mosquito abundance.
-- There is a lot of variation within each location. This is consistent across the dataset, suggesting natural variation in the data to be explored further.
-
-
-Visualisations such as this can help researchers identify potential hotspots of vector activity and guide further investigation into the ecological factors driving these patterns. For our graphic, we can see a lot of variation within each location. One way to assess this in more detail is to consider abundance over time. 
-
-
-
-
-
-## Drawing Hypotheses from Complex Visualisations (10 minutes)
-Time-specific example
-
-
-Species-specific example
-
-
-## What Makes a Good Visualisation? (15 mins) 
-Whiteboard discussion
-
-
-Pros
-
-
-Cons
-
-
-## Collaborative Task (45 mins)
-Breakout rooms - participants are given a messy or incorrect graph and need to work together to fix it.
-
-
-Ideally I would like each breakout room to have a different “problem” graph to fix, but this will depend on timings when developing content.
-
-
-## Share Collaborative Graphics (15 mins)
-4 graphs to go through
-
-
-I think it would be cool to share the graphs from each group to show what was wrong and what was done to fix it (demonstrators send graphs to me in a short 5 min break, I would share on my screen to avoid delays with swapping screens), but it could be the same graph across all groups if limited by time.
-
-
-What went wrong?
-
-
-What did you do to fix it?
-
-
-Why?
-
-
-## Communicating to Different Audiences (15 mins)
-Academics, policy makers, public engagement
-
-
-What the audience needs and what to emphasise.
-
-
-## Visualisation Themes & Accessible Graphics (15 mins)
-ggplot themes
-
-
-Colour blind friendly, alt-text, font size, contrast, shapes as well as colour, clear legends
-
-
-## Prepare for Challenge Task & Conclusion
-Outline task
-
-
-Where to find support
-
-
-Conclusion
-
-
-## Reading & Resources
-
-- [Data Visualisation with ggplot2 Cheatsheet](https://rstudio.github.io/cheatsheets/data-visualization.pdf)
-- [Ten Simple Rules for Better Figures](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003833)
-- [Accessibility](https://cran.r-project.org/web/packages/afcharts/vignettes/accessibility.html)
-
-
-# Challenge Task 
-
-(TBC)
-
-## Level 1
-Identify data types from the provided dataset.
-
-
-Plot an abundance plot for two species.
-
-
-## Level 2
-Plot a trait over time (for a second but related dataset)
-
-
-## Level 3
-Draw some hypotheses from your visualisations.
-
-
-## Level 4
-Identify visual or accessibility limitations across your plots.
-
-
-Make the themes consistent across all your plots.
-
-
-Apply accessible elements.
-
-
-## Level 5
-Present your graphs as if you were presenting to:
-i) Academics
-ii) Policy makers
-iii) Public engagement
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
