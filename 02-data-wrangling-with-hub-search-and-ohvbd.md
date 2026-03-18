@@ -72,7 +72,7 @@ This workshop will use several R packages throughout, please install these ahead
 
 
 **Packages for this workshop:**
-(to be added when coding tasks)
+Coming soon
 
 
 ::: {.rmdtip}
