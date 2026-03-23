@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 9 Challenge Task | One Health VBD Hub Training 2026</title>
 <meta name="author" content="Chloë Coxshall">
-<meta name="description" content="9.1 Level 1 Find a dataset using Hub Search or VBD Hub (participant choice)  9.2 Level 2 What data types? Does it need converting from wide to long?  9.3 Level 3 Do any columns need merging?...">
+<meta name="description" content="9.1 Introduction This Challenge Task provides an opportunity for you to independently apply the skills and concepts discussed throughout this online training, including: Navigating the VBD Hub...">
 <meta name="generator" content="bookdown 0.45 with bs4_book()">
 <meta property="og:title" content="Chapter 9 Challenge Task | One Health VBD Hub Training 2026">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://One-Health-VBD-Hub.github.io/vbd-hub-training-workshops/challenge-task-2.html">
 <meta property="og:image" content="https://One-Health-VBD-Hub.github.io/vbd-hub-training-workshops/cover.png">
-<meta property="og:description" content="9.1 Level 1 Find a dataset using Hub Search or VBD Hub (participant choice)  9.2 Level 2 What data types? Does it need converting from wide to long?  9.3 Level 3 Do any columns need merging?...">
+<meta property="og:description" content="9.1 Introduction This Challenge Task provides an opportunity for you to independently apply the skills and concepts discussed throughout this online training, including: Navigating the VBD Hub...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 9 Challenge Task | One Health VBD Hub Training 2026">
-<meta name="twitter:description" content="9.1 Level 1 Find a dataset using Hub Search or VBD Hub (participant choice)  9.2 Level 2 What data types? Does it need converting from wide to long?  9.3 Level 3 Do any columns need merging?...">
+<meta name="twitter:description" content="9.1 Introduction This Challenge Task provides an opportunity for you to independently apply the skills and concepts discussed throughout this online training, including: Navigating the VBD Hub...">
 <meta name="twitter:image" content="https://One-Health-VBD-Hub.github.io/vbd-hub-training-workshops/cover.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -59,6 +59,7 @@
 <li><a class="" href="pre--live-session-content-3.html"><span class="header-section-number">7</span> Pre- Live Session Content</a></li>
 <li><a class="" href="live-session-3.html"><span class="header-section-number">8</span> Live Session</a></li>
 <li><a class="active" href="challenge-task-2.html"><span class="header-section-number">9</span> Challenge Task</a></li>
+<li><a class="" href="reading-resources-1.html"><span class="header-section-number">10</span> Reading &amp; Resources</a></li>
 <li class="book-part">Optional Recap of LMs and Basic Plots</li>
 <li><a class="" href="recap.html"><span class="header-section-number">A</span> Recap of Linear Models &amp; Basic Plots (optional)</a></li>
 </ul>
@@ -72,71 +73,84 @@
 <h1>
 <span class="header-section-number">9</span> Challenge Task<a class="anchor" aria-label="anchor" href="#challenge-task-2"><i class="fas fa-link"></i></a>
 </h1>
-<div id="level-1-2" class="section level2" number="9.1">
+<div id="introduction-5" class="section level2" number="9.1">
 <h2>
-<span class="header-section-number">9.1</span> Level 1<a class="anchor" aria-label="anchor" href="#level-1-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-5"><i class="fas fa-link"></i></a>
 </h2>
-<p>Find a dataset using Hub Search or VBD Hub (participant choice)</p>
+<p>This Challenge Task provides an opportunity for you to independently apply the skills and concepts discussed throughout this online training, including:</p>
+<ul>
+<li>Navigating the <strong>VBD Hub</strong> website and where to find key resources.</li>
+<li>Using <strong>Hub Search</strong> and the <strong>ohvbd package</strong> to search and retrieve data.</li>
+<li>Data wrangling techniques commonly applied to VBD datasets, including merging and fixing species names.</li>
+<li>Practice applying data wrangling principles to real-world datasets.<br>
+</li>
+<li>Using the <strong>VBD Hub Forum</strong> and collaborating within the VBD community.</li>
+</ul>
+<p>The <strong>Challenge Task</strong> has multiple levels and is designed to encourage applied thinking. Feel free to work through the levels that apply to you, but we encourage you to try all levels to make the most of the training.</p>
+<p>During the <strong>Challenge Task</strong>, we encourage you to experiment with different approaches and discuss potential difficulties with each other via the <a href="https://forum.vbdhub.org/t/challenge-task-q-a-data-wrangling-with-hubsearch-and-ohvbd/162">VBD Hub Forum</a>. Our demonstrators and I will be monitoring the <strong>Forum</strong> if you need any additional support.</p>
+<p>After approximately 2 hours, a workbook version of this challenge will be made available on the <a href="https://vbdhub.org/resources/learn">Online Training site</a>. This is not an answer sheet, and we encourage you to continue coding yourself, rather than reading through the solutions. This workbook will walk you through the tasks like in the examples used throughout the training, but with a bit more independence before providing the answers.</p>
 </div>
-<div id="level-2-2" class="section level2" number="9.2">
+<div id="level-1---retrieve-a-dataset" class="section level2" number="9.2">
 <h2>
-<span class="header-section-number">9.2</span> Level 2<a class="anchor" aria-label="anchor" href="#level-2-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.2</span> Level 1 - Retrieve a dataset<a class="anchor" aria-label="anchor" href="#level-1---retrieve-a-dataset"><i class="fas fa-link"></i></a>
 </h2>
-<p>What data types?</p>
-<p>Does it need converting from wide to long?</p>
+<p>Use the <strong>ohvbd package</strong> to find and retrieve a VBD dataset of your choice. Feel free to choose a dataset that aligns with your own interest, but try to choose one that includes species data, location data, and environmental or trait variables.</p>
+<p>View your dataset:</p>
+<ul>
+<li>Identify the data types and potential key columns.</li>
+<li>Check if your data contains missing values or inconsistent column names.</li>
+<li>Consider whether your dataset needs converting from wide to long format.</li>
+</ul>
 </div>
-<div id="level-3-2" class="section level2" number="9.3">
+<div id="level-2---wrangle-your-data" class="section level2" number="9.3">
 <h2>
-<span class="header-section-number">9.3</span> Level 3<a class="anchor" aria-label="anchor" href="#level-3-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.3</span> Level 2 - Wrangle your data<a class="anchor" aria-label="anchor" href="#level-2---wrangle-your-data"><i class="fas fa-link"></i></a>
 </h2>
-<p>Do any columns need merging? (second dataset? TBC?)</p>
+<p>Apply at least two data wrangling techniques to improve the usability of your dataset. Consider why you chose those changes for your specific dataset.</p>
 </div>
-<div id="level-4-2" class="section level2" number="9.4">
+<div id="level-3---cleaning-species-names" class="section level2" number="9.4">
 <h2>
-<span class="header-section-number">9.4</span> Level 4<a class="anchor" aria-label="anchor" href="#level-4-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.4</span> Level 3 - Cleaning species names<a class="anchor" aria-label="anchor" href="#level-3---cleaning-species-names"><i class="fas fa-link"></i></a>
 </h2>
-<p>Check species names</p>
-<p>Variable/trait names?</p>
+<p>Identify the species column of your dataset and check if the species names are formatted consistently. Apply name cleaning techniques where appropriate.</p>
 </div>
-<div id="level-5-2" class="section level2" number="9.5">
+<div id="level-4---merging-datasets" class="section level2" number="9.5">
 <h2>
-<span class="header-section-number">9.5</span> Level 5<a class="anchor" aria-label="anchor" href="#level-5-2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.5</span> Level 4 - Merging datasets<a class="anchor" aria-label="anchor" href="#level-4---merging-datasets"><i class="fas fa-link"></i></a>
 </h2>
-<p>Share your wrangling process in the Forum, feedback to each other</p>
-<p>You might choose to pair up with someone using similar data and give peer feedback</p>
+<p>For this level, you have a choice of two options:</p>
+<p><strong>Level 4a</strong> - Find a second dataset that can be combined with your first, for instance, if your first dataset focused on mosquito abundance, you might look for a second dataset on environmental factors. Identify a suitable key and try to merge the datasets.</p>
+<p><strong>Level 4b</strong> - If a suitable second dataset is not available, focus on preparing your first dataset for merging by identifying potential key columns and whether they are in a usable format.</p>
 <div class="rmdtip">
-<p><strong>Tip:</strong> This is a tip.</p>
-</div>
-<div class="rmdnote">
-<p><strong>Note:</strong> This is a note.</p>
-</div>
-<div class="rmdimportant">
-<p><strong>Important:</strong> This is important.</p>
-</div>
-<div class="rmdcaution">
-<p><strong>Caution:</strong> This is a caution.</p>
-</div>
-<div class="rmdwarning">
-<p><strong>Warning:</strong> This is a warning.</p>
-</div>
-
+<p><strong>Tip:</strong> We recommend trying <strong>Level 4a</strong> to make the most of this training session.</p>
 </div>
 </div>
-
-
-
+<div id="level-5---share-and-collaborate" class="section level2" number="9.6">
+<h2>
+<span class="header-section-number">9.6</span> Level 5 - Share and collaborate<a class="anchor" aria-label="anchor" href="#level-5---share-and-collaborate"><i class="fas fa-link"></i></a>
+</h2>
+<p>Share a short summary of your wrangling process on the <strong>VBD Hub Forum</strong>, including:</p>
+<ul>
+<li>The dataset you chose.</li>
+<li>The wrangling steps you applied and why you chose them.</li>
+<li>Any challenges you came across.</li>
+</ul>
+<p>Encourage each other by responding to other participants’ summaries - you could ask questions about their process, provide feedback, or suggest an alternative approach.</p>
+</div>
+</div>
   <div class="chapter-nav">
 <div class="prev"><a href="live-session-3.html"><span class="header-section-number">8</span> Live Session</a></div>
-<div class="next"><a href="recap.html"><span class="header-section-number">A</span> Recap of Linear Models &amp; Basic Plots (optional)</a></div>
+<div class="next"><a href="reading-resources-1.html"><span class="header-section-number">10</span> Reading &amp; Resources</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#challenge-task-2"><span class="header-section-number">9</span> Challenge Task</a></li>
-<li><a class="nav-link" href="#level-1-2"><span class="header-section-number">9.1</span> Level 1</a></li>
-<li><a class="nav-link" href="#level-2-2"><span class="header-section-number">9.2</span> Level 2</a></li>
-<li><a class="nav-link" href="#level-3-2"><span class="header-section-number">9.3</span> Level 3</a></li>
-<li><a class="nav-link" href="#level-4-2"><span class="header-section-number">9.4</span> Level 4</a></li>
-<li><a class="nav-link" href="#level-5-2"><span class="header-section-number">9.5</span> Level 5</a></li>
+<li><a class="nav-link" href="#introduction-5"><span class="header-section-number">9.1</span> Introduction</a></li>
+<li><a class="nav-link" href="#level-1---retrieve-a-dataset"><span class="header-section-number">9.2</span> Level 1 - Retrieve a dataset</a></li>
+<li><a class="nav-link" href="#level-2---wrangle-your-data"><span class="header-section-number">9.3</span> Level 2 - Wrangle your data</a></li>
+<li><a class="nav-link" href="#level-3---cleaning-species-names"><span class="header-section-number">9.4</span> Level 3 - Cleaning species names</a></li>
+<li><a class="nav-link" href="#level-4---merging-datasets"><span class="header-section-number">9.5</span> Level 4 - Merging datasets</a></li>
+<li><a class="nav-link" href="#level-5---share-and-collaborate"><span class="header-section-number">9.6</span> Level 5 - Share and collaborate</a></li>
 </ul>
 
       <div class="book-extra">

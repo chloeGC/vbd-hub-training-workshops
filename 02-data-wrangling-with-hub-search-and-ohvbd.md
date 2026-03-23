@@ -1459,202 +1459,695 @@ Please make sure you have Teams set up on your device and that your microphone i
 
 
 ## Schedule
-10:00 - Introduction
-10:10 - Recap Pre- Live Session Content
-10:20 - Data Wrangling (Broad)
-10:25 - Replicate/Merging
-10:40 - Fix Species Name
-11:00 - BREAK
-11:10 - Real-World Data is Messy
-11:25 - Collaborative Task
-12:10 - BREAK
-12:20 - Share Results from Collaborative Task
-12:35 - Collaboration (Forum)
-12:50 - Prepare for Challenge Task & Conclusion
 
+- Introduction
+- Recap Pre- Live Session Content
+- Real World Data is Messy
+- Data Wrangling Principles
+- Merging Datasets
+- Cleaning Species Names
+- BREAK
+- Planning a Wrangling Workflow
+- Collaborative Task
+- Share Collaborative Task Results
+- BREAK
+- What Does Collaboration Mean to You?
+- Prepare for Challenge Task
+- Conclusion
 
-## Introduction (10 mins)
-Introduce myself
 
 
-Introduce demonstrators
+## Introduction 
+Welcome to the **One Health Vector-Borne Diseases Hub Online Training**. My name is Chloё, and I work with the VBD Hub to develop training and workshops, like this session today. We are also joined by our lovely demonstrators, who will be available throughout the session to provide support and answer any questions you have. 
 
 
-Recap Learning Objectives
+**VBD Hub** is a non-profit, open-source project funded by UKRI and Defra, which aims to improve accessibility and information sharing. To do this, the project builds infrastructure and tools to allow researchers to combine knowledge and share data within the VBD research community and with policymakers.  
 
 
-Reiterate where to find support:
-Forum
-Demonstrators
-Technical difficulties - (email)
+Our focus today is **Data Wrangling with Hub Search and ohvbd**. By the end of this training, you should be able to: 
 
+- Use **VBD Hub** resources to access shared VBD datasets.
+- Effectively wrangle real-world VDB datasets ready for further analysis.
+- Build collaborative, professional connections within the VBD community.
 
-## Recap Pre- Live Session Content (10 mins)
-What went well?
 
+In the **Pre- Live Session** content, you will have seen links to recap materials and cheat sheets. Feel free to use these if you need any reminders. If you need additional support, the [Forum](https://forum.vbdhub.org/c/training/13) is a good first point of call where you can discuss queries with fellow participants. Our **demonstrators** will keep an eye on the chat during this call and can provide more support during tasks. 
 
-Common mistakes
 
+The written version of this content is now available on the [VBD Hub website](https://vbdhub.org/resources/learn) if you wish to follow along with this format. These written materials will be available for you to access in future, including the code examples. You are welcome to follow along with the walkthrough code in this **Live Session**, but there is no pressure, and you can have a go at the code yourself later. 
 
-Strong anonymous examples?
 
+If you have any technical difficulties or lose connection, try joining the meeting again when you can. If you need technical support, please contact support@vbdhub.org (**note:** this is only for technical support, not statistical support or questions on the course content). 
 
-## Data Wrangling (Broad) (5 mins)
-Lots of ways to wrangle data, depends on field, data collected, etc.
 
+We have breaks scheduled into this session, but if you need to step away for a few minutes at all, feel free to do so quietly. 
 
-We will focus on two methods key to VBD data.
 
+## Recap Pre- Live Session Content 
+In the **Pre- Live Session** content, we covered:
 
-## Replicate/Merging (15 mins)
-Similar columns across two datasets
+- Navigating the **VBD Hub** website and where to find key resources.
+- Using **Hub Search** and the **ohvbd package** to search and retrieve data.
+- Discussing various topics with the VBD community on the **VBD Hub Forum**.
+- Applying data wrangling principles to real-world datasets.  
 
 
-Merge by common column
+During the tasks, we tried identifying patterns and details out the datasets and proposing hypotheses from our visualisations:
 
+- 1. **Hub Search:** How many results did your search for abundance data on Ixodes ricinus return?
+- 2. **Hub Search:** What is the name, publication data, and source database of your selected dataset?
+- 3. **Data wrangling:** What data types did you see in the ohvbd dataset?
 
-Useful functions
 
+It is normal if you found some of this content challenging, it can sometimes be tricky when you are getting your head around new resources.
 
-Common mistakes
 
+In the **Pre-Live Session** content, we used `search_hub()` in the **ohvbd package** to search and retrieve datasets. This is the base function for an **ohvbd** search, and is useful for data exploration. However, if you know what you are looking for, you can make this process more efficient by specifying the source database directly into the fetch:
 
-## Fix Species Name (20 mins)
-Find and remove a misnamed species
 
+``` r
+search_hub("ixodes ricinus", db = "vt")
+```
 
-Remove underscore or spp. Etc. at the end of the species name
 
+This approach is typically significantly faster as it avoids retrieving unnecessary GBIF metadata. 
 
-Make a column all lowercase
 
+::: {.rmdtip}
+**Tip:** You can write `?search_hub` or `?fetch_vt` in the R console to access guide documents if you need extra help using **ohvbd**.
+:::
 
-Useful functions
 
+## Real World Data is Messy 
+Real-world VBD data is rarely clean, especially if it has been collected for different purposes or recorded using different reporting standards. 
 
-Common mistakes
 
+Before making any changes to your datasets, it is important to understand how your dataset is formatted so you can apply the most appropriate wrangling and cleaning approaches. When working with VBD datasets, you may come across:
 
-Combine merging - merge by species
+- Missing values
+- Inconsistent data types
+- Poorly named columns
+- Duplicate records
+- Data stored in inconvenient formats.
 
 
-RGBIF for those wanting extra
+Rather than viewing each of these issues separately, it can be useful to recognise common patterns. For instance:
 
+- Inconsistent naming - affects merging
+- Mixed data types - affects calculations
+- Wide format - affects analysis and visualisations
 
-## Real World Data is Messy (15 mins)
-Common trip-ups in “messy” data sets
 
+When we think about data inconsistency patterns in this way, we shift our focus from problems to decisions. Each issue you identify in your dataset requires a decision:
 
-What to look out for
+- Should missing values be removed or retained?
+- Should columns be renamed or merged?
+- Should data be formatted from wide to long format?
 
 
-## Collaborative Task (45 mins)
-Find a specified dataset through ohvbd
+When we stop asking **"what is wrong with this dataset?"** and start thinking **"what do I need this dataset to do?"**, we can make informed decisions and prioritise the most appropriate data wrangling approaches to your data and research question. 
 
 
-Identify what makes it messy
+## Data Wrangling Principles
+Data wrangling is a broad topic, and there is no single "correct" way to wrangle data. The methods you choose to wrangle your data will depend on your research question, the type of data you are working with, and how it is formatted.
 
 
-Wrangle data
+When we access **VBD data** using tools like Hub Search or the **ohvbd package**, we typically retrieve data from different sources. These sources might use slightly different formats, names, and details, and therefore need to be wrangled before we use them for analysis.
 
 
-Try to use datasets with multiple messy elements:
-Mixed data types
-Messy columns (merge)
-Messy species names
-Wide to long
+People typically think of data wrangling as a list of set steps to work through. Try to reframe data wrangling as a process of making your data fit for your research - the goal is to make the data usable and reliable for your own specific analysis. 
 
 
-## Share Results from Collaborative Task (15 mins)
-4 groups
+::: {.rmdnote}
+**Note:** You might repeat some data wrangling principles across different datasets, but for each new dataset, try to consider how you want the data to look for the analysis you are planning to use.
+:::
 
 
-What went wrong?
+There are numerous ways to wrangle your data, including filtering rows, converting data types, handling missing values, and standardising units. 
 
 
-How did you fix it?
+We cannot cover every data wrangling principle within a single training session. Today, we will focus on two methods commonly applied to VBD data:
 
+- 1. Merging data.
+- 2. Cleaning species names.
 
-Why?
 
+## Merging Datasets
+Often, research workflows incorporate more than one dataset as it is rare for a single dataset to contain all the information you need to answer your research question. For instance, you might have one dataset on species abundance data and another on environmental variables. If you want to analyse how the environment influences species abundance, you will likely want to combine these into a single dataset.
 
-## What Does Collaboration Mean to You? (15 minutes)
-Why do you want to collaborate?
 
+We call this **merging** or **joining** datasets. 
 
-What makes a good collaboration?
 
+For a merge to work effectively, both datasets must share at least one common column name. This is often referred to as a **key**. In VBD datasets, a common key might be a species name, a location, or a date. 
 
-What makes a bad collaboration?
 
+Let’s imagine we have two datasets which both contain a column called species. We can merge these two datasets using the `left_join()` function from the `dplyr` package:
 
-How could you use the Forum in your own research context for collaboration?
 
+``` r
+library(dplyr)
 
-Whiteboard
+merged_data <- left_join(dataset_a, dataset_b, by = "species")
+```
 
+This function keeps all the rows from `dataset_a` and adds matching information from `dataset_b` where the species value is the same.
 
-## Prepare for Challenge Task & Conclusion (10 mins)
-Outline Challenge Task
 
+There are different types of merges or joins, each of which acts slightly differently:
 
-Where to find support
+- A **left join** keeps all the rows from the first dataset and adds matching values from the second. This is a safe choice when you do not want to lose data.
+- An **inner join**, `inner_join()`, only keeps the rows that appear in both datasets. Useful when you are only interested in complete matches, but risks accidental data loss.
+- A **full join**, `full_join()`, keeps all the rows from both datasets, filling in missing values where matches do not exist. This can be helpful in exploratory work but may require further downstream data cleaning.
 
 
-Conclusion
+Choosing which merge to use depends on your research question and how you want to format rows that don’t align across datasets.
+
+
+We can also merge by multiple columns when a single column is not enough to uniquely identify a match. For example, in VBD research, we might need to merge by species and location:
+
+
+``` r
+merged_data <- left_join(dataset_a, dataset_b, by = c("species", "location")
+```
+
+
+When we set multiple key columns, we ensure that matches only occur when both the species and the location align. This is particularly useful when working with ecological or epidemiological data, where the species might appear in multiple regions and should be accounted for with this in mind.
+
+
+Merging is usually straightforward, but it can become tricky when we assume the key represents the same thing in both datasets, but the data contains inconsistencies. For example, if `dataset_a` formats species names as `"Ixodes ricinus"` and `dataset_b` formats species names as `"ixodes_ricinus"`, R will not identify these species as a match for merging.
+
+
+::: {.rmdcaution}
+**Frequent mistake:** A **successful merge** does not always guarantee a **correct merge**. Even if your code runs without errors, the result may not be what you were aiming for. It is important to check whether the new, merged dataset makes sense, for instance has the number of rows changed drastically, are there missing values in the new columns, and do the matches look correct?
+
+
+A useful quick check is:
+
+
+``` r
+nrow(dataset_a)
+nrow(merged_data)
+```
+
+
+This will check the number of rows in the original dataset and the new, merged dataset. A significant increase in the number of rows might suggest duplicate matches, and a significant decrease indicates you might have lost data.
+:::
+
+
+## Cleaing Species Names 
+Species names are one of the most common causes of inconsistency when merging datasets from multiple sources. 
+
+
+Small formatting differences can prevent datasets from merging correctly or cause inaccuracies in later analyses. Mismatched species names are usually caused by:
+
+- Differences in capitalisation - `"Ixodes ricinus"` or `"IXODES RICINUS"`.
+- Using spaces or underscores - `"ixodes ricinus"` or `"ixodes_ricinus"`.
+- Extra text, such as "spp." - `"Ixodes ricinus spp."`.
+- Duplicate rows for the same species.
+
+
+Although we know these all represent the same species, R will recognise each differently formatted name as a different value.
+
+
+A good starting point when standardising species names is setting all text to lowercase:
+
+
+``` r
+clean_data <- clean_data |>
+ mutate(species = tolower(species))
+```
+
+
+We can also make sure species names in our data don’t have any unwanted characters, such as underscores:
+
+
+``` r
+clean_data <- clean_data |>
+ mutate(species = gsub("_", " ", species))
+``` 
+
+
+Or additional text, such as "spp.":
+
+
+``` r
+clean_data <- clean_data |>
+ mutate(species = gsub(" spp\\.", "", species))
+``` 
+
+
+Or any extra spaces:
+
+
+``` r
+clean_data <- clean_data |>
+ mutate(species = trimws(species))
+``` 
+
+
+If species names are not standardised across our datasets:
+
+- Merges between datasets could fail.
+- Duplicate species entries might be created.
+- Analyses might produce inaccurate results.
+
+
+### Example
+We can use **ohvbd** to retrieve a dataset on mosquito abundance from …, and another dataset on (species trait) from …, in order to analyse patterns of abundance dependent on (species trait):
+
+
+`mosquito_abundance_data`
+
+
+`trait_data`
+
+
+We can try to merge these datasets in their raw format:
+
+
+``` r
+merged_data <- left_join(mosquito_abundance_data, trait_data, by = "species")
+```
+
+
+Oh dear, our merge has failed. Let’s double what our data looks like using `head()`:
+
+
+``` r
+head(mosquito_abundance_data)
+head(trait_data)
+```
+
+
+We can see some inconsistencies with our species names, including…:
+
+- Difference in capitalisation - “Aedes aegypti” or “aedes aegypti”
+- Using underscores instead of spaces - “aedes_aegypti” or “aedes aegypti”
+- Additional text - “aedes aegypti spp.”
+
+
+Let’s make sure all our species names are lowercase and remove unwanted formatting:
+
+
+``` r
+clean_mosquito_abundance_data <- mosquito_abundance_data |>
+mutate(species = tolower(species)) |>
+mutate(species = gsub("_", " ", species)) |>
+mutate(species = gsub(" spp\\.", "", species))
+
+clean_trait_data <- trait_data |>
+mutate(species = tolower(species)) |>
+mutate(species = gsub("_", " ", species)) |>
+mutate(species = gsub(" spp\\.", "", species))
+```
+
+
+Now that our species names are consistent, we can try merging again:
+
+
+``` r
+merged_data <- left_join(clean_mosquito_abundance_data, clean_trait_data, by = "species")
+
+head(merged_data)
+```
+
+
+We can see our merge has now run successfully, and the data is formatted as we intended. It can be used for further wrangling and analysis.
+
+
+::: {.rmdcaution}
+**Frequent mistake:** People often only clean one dataset before merging, but data for the key column needs to be consistent across both datasets for the merge to be successful.
+:::
+
+
+So far, we have used straightforward approaches such as concerting all text to lowercase and removing consistent unwanted characters like "spp.". These techniques are useful starting points, but species names in real VBD datasets often contain more complex inconsistencies.
+
+
+More complex cases might involve:
+
+- Abbreviated genus names - `"I. ricinus"`.
+- Additional descriptors contributing to varied additional text - `"Ixodes ricinus aff."` or `"Ixodes ricinus cf."`.
+- Mixed formatting within the same column.
+
+
+In these cases, you may need to think critically about what formatting should be retained and what should be removed, and require more steps to clean the data. For instance, if we had a dataset where the species name contained these values:
+
+- `"Ixodes ricinus"`
+- `"Ixodes_ricinus"`
+- `"Ixodes ricinus spp."`
+- `"IXODES RICINUS"`
+- `"I. ricinus"`
+
+
+If we apply our earlier name cleaning techniques, we might standardise most of these species name formats, but `"I. ricinus"` would remain as is, and R would process this as a different value. 
+
+
+In situations like this, where not all inconsistencies can be solved with simple text replacement, you will likely need to inspect unique values in your dataset:
+
+
+``` r
+unique(clean_data$species)
+```
+
+
+This allows you to see all the distinct values in the species column, so that you can identify inconsistent formats, such as `"I. ricinus"`, and decide on a consistent naming format for your data.
+
+
+Specific cases might need to be manually recoded:
+
+
+``` r
+clean_data <- clean_data |>
+  mutate(species = ifelse(species == "i. ricinus", "ixodes ricinus", species))
+```
+
+
+As species columns are typically used as a key when merging in VBD research, ensuring species names are consistent across our datasets can allow us to merge multiple datasets more confidently and reliably.
+
+
+::: {.rmdtip}
+**Tip:** Automating our workflow feels much easier, but it is important to balance this with manual reviewing to ensure you don’t miss specific cases like these. To support this balance, we can use a three step approach:
+
+- 1. Apply broad cleaning techniques - ensure all text is lowercase, remove underscores, remove common additional text.
+- 2. Inspect the results using `unique()`.
+- 3. Manually correct any remaining inconsistencies.
+:::
+
+
+### (optional) Resolving species names using GBIF
+When using large or messy datasets, an alternative approach you might choose is to match your species names against a recognised taxonomic database. 
+
+
+The `rgbif` package can be used to help standardise species names using the Global Biodiversity Information Facility (GBIF). We can use the `name_backbone()` function to try to match your species name input to a standardised species name in the GBIF backbone taxonomy:
+
+
+``` r
+library(rgbif)
+
+name_backbone(name = "ixodes ricinus")
+```
+
+
+This approach can help to identify spelling or formatting errors and synonymous species names when simple cleaning techniques are insufficient for your dataset.  
+
+
+::: {.rmdnote}
+**Note:** In this training session, we will focus on using the cleaning techniques we discussed earlier, rather than using GBIF.
+:::
+
+
+## Planning a Wrangling Workflow
+We have discussed how to reframe data wrangling as a process, rather than a rigid set of steps.
+
+
+When you open a new dataset, it can be tempting to start making changes immediately. To relieve this temptation, we can be prepared with a guide to a practical workflow that leaves room for flexibility to account for your specific dataset and research questions.
+
+
+**Guide to a practical, but flexible workflow:**
+
+- **Inspect the data** - understand the structure, variables, and data types.
+- **Identify any issues** - look for inconsistencies, missing values, and formatting problems.
+- **Prioritise tasks** - decide which issues are most important for your analysis.
+- **Apply cleaning steps** - after you understand the data, use appropriate data wrangling approaches.
+- **Check results** - ensure the changes you have made have worked in the way you expected.
+
+
+Without a clear workflow, it is easy to lose track of the changes you have made, and introduce new errors, especially if you don’t check your results.
+
+
+Approaching data wrangling in this way helps to ensure your work is reproducible, efficient, and aligned with your research aims. 
+
+
+::: {.rmdtip}
+**Tip:** To keep track of your workflow, add comments to your code explaining what changes you made and why:
+
+
+`# Convert data to all lowercase to ensure consistency across datasets.`
+:::
+
+
+## Collaborative Task 
+Let’s have a go at applying what we have learnt so far by working together in breakout rooms. Each group will be given a short example of data wrangling code, along with a small dataset. The code contains errors or issues for you to work collaboratively to identify and fix. 
+
+
+Together, you will:
+
+- Identify what the code is trying to do.
+- Discuss how you might approach and debug any errors or problematic code. 
+- Edit and improve the code so that it runs without errors and produces effective results.
+- Prepare to give a brief summary on why your group made those changes when we return to the main meeting room.
+
+
+To work productively as a group, you might choose to delegate responsibilities, for example, one person might run the code, one might take notes, and one might guide the discussion. There will be a demonstrator in each group to support your work and answer any questions you might have. 
+
+
+The aim of this activity is not to produce perfect code or script, but to apply what you have learnt so far and think critically about data wrangling principles. Reflecting on your decisions is an important part of developing effective data wrangling skills. 
+
+
+After completing the task in your breakout room, we will join the main room again. Each group will be able to share the changes they made to wrangle their dataset, and why they made these decisions.
+
+
+### Example 1
+``` r
+# Dataset A
+data_a <- data.frame(
+  species = c("aedes aegypti", "culex pipiens", "anopheles gambiae"),
+  abundance = c(10, 25, 5)
+)
+
+# Dataset B
+data_b <- data.frame(
+  Species = c("aedes aegypti", "culex pipiens", "anopheles gambiae"),
+  trait = c("urban", "rural", "rural")
+)
+
+# Merge datasets
+merged_data <- left_join(data_a, data_b, by = "Species")
+```
+
+
+### Example 2
+``` r
+# Dataset
+data <- data.frame(
+  species = c("Aedes aegypti", "aedes_aegypti", "Aedes aegypti spp."),
+  abundance = c(10, 12, 8)
+)
+
+# Clean species name
+clean_data <- data |>
+  mutate(species = tolower(Species)) |>
+  mutate(species = gsub("spp.", "", species))
+```
+
+
+### Example 3
+``` r
+# Dataset A
+data_a <- data.frame(
+  species = c("aedes aegypti", "culex pipiens", "anopheles gambiae"),
+  abundance = c(10, 25, 5)
+)
+
+# Dataset B
+data_b <- data.frame(
+  species = c("aedes aegypti", "culex pipiens"),
+  trait = c("urban", "rural")
+)
+
+# Merge datasets
+merged_data <- inner_join(data_a, data_b, by = "species")
+``` 
+
+
+### Example 4
+``` r
+# Dataset A
+data_a <- data.frame(
+  species = c("aedes aegypti", "aedes aegypti", "culex pipiens"),
+  location = c("site1", "site2", "site1"),
+  abundance = c(10, 15, 20)
+)
+
+# Dataset B
+data_b <- data.frame(
+  species = c("aedes aegypti", "culex pipiens"),
+  location = c("site1", "site1"),
+  temperature = c(25, 22)
+)
+
+# Merge datasets
+merged_data <- left_join(data_a, data_b, by = "species", "location")
+```
+
+
+::: {.rmdtip}
+**Tip:** For all examples, remember to run `head()` and `nrow()` to assess the new datasets and if changes you made have worked as expected.
+:::
+
+
+## Share Results from Collaborative Task 
+We will now share how each group wrangled their data. Remember, the aim of this discussion is to understand the reasoning behind the changes that each group made. 
+
+
+For each dataset, a member of each group is invited to explain:
+
+- What the code was trying to do.
+- What issues the group identified.
+- What changes the group made to fix the code.
+- Why the group chose those changes. 
+
+
+Hopefully, this task has reinforced the data wrangling principles we have discussed so far, and developed our understanding of how reformatting our data effectively contributes to a reproducible workflow and smoother downstream analyses.
+
+
+By comparing workflows used by each group, we can see that there are multiple ways to approach data wrangling, depending on the dataset and research question.
+
+
+## What Does Collaboration Mean to You? 
+So far in this session, we have focused on applied data wrangling skills in the context of VBD datasets. These skills are important when we retrieve data from **VBD Hub** resources such as **Hub Search** and **ohvbd**. 
+
+
+However, in the **Pre- Live Session** content we also explored the **VBD Hub Forum**, and introduced the idea of collaboration. 
+
+
+Collaborations refer to working with others to support research and improve outcomes. They can take many forms, it may include:
+
+- Sharing datasets
+- Providing feedback on analysis
+- Working together on joint papers or presentations
+- Contributing to community discussions.
+
+
+Different people want different things from collaborations. Some might be looking to share their data or resources, others might want support with their analysis, and others might be interested in developing long-term research networks.
+
+
+With this in mind, let’s hear from you:
+
+- Why do you want to collaborate?
+- What do you think makes a collaboration successful?
+- What challenges might you expect in collaborative work?
+
+
+Good collaborations often involve clear communication, shared goals, and transparency in methods and data. 
+
+
+Collaborations can be challenging when expectations are unclear, record keeping is limited, or communication is poor. 
+
+
+The VBD Hub is built to support collaborations within the VBD community by providing resources to access shared datasets and a Forum for discussion and knowledge sharing. 
+
+
+How might you use the **VBD Hub Forum** to support your own research or collaborations? 
+
+
+Combining the ability to use resources such as **Hub Search** and **ohvbd**, applied data wrangling skills, and the value of collaboration will prepare you to set up effective workflows for your own independent and collaborative future research.
+
+
+## Preparing for the Challenge Task 
+The final session of this training will provide an opportunity for you to independently apply the skills and concepts discussed throughout the **Pre-** and **Live Session** content, including:
+
+- Navigating the **VBD Hub** website and where to find key resources.
+- Using **Hub Search** and the **ohvbd package** to search and retrieve data.
+- Data wrangling techniques commonly applied to VBD datasets, including merging and fixing species names.
+- Practice applying data wrangling principles to real-world datasets.  
+- Using the **VBD Hub Forum**  and collaborating within the VBD community.
+
+
+The **Challenge Task** will have multiple levels and is designed to encourage applied thinking. Feel free to work through the levels that apply to you, but we encourage you to try all levels to make the most of the training. 
+
+
+During the **Challenge Task**, we encourage you to experiment with different approaches and discuss potential difficulties with each other via the [VBD Hub Forum](https://forum.vbdhub.org/t/challenge-task-q-a-data-wrangling-with-hubsearch-and-ohvbd/162). Our demonstrators and I will be monitoring the **Forum** if you need any additional support. 
+
+
+We encourage you to have a go at the task on your own, but a walkthrough version will be released after a few hours, should you need additional guidance.
+
+
+## Conclusion
+Throughout this workshop, we have explored how to search, retrieve, and wrangle VBD data so that we have a better understanding of the datasets we are working with, ready for effective further analysis. 
+
+
+We began by retrieving datasets with the **Hub Search** and **ohvbd**, and applying foundation data wrangling principles, such as using informative names and converting from wide to long format. We then introduced two data wrangling techniques commonly used in VBD research: merging and fixing species names, and worked together to apply these to real VBD datasets. Finally, we discussed effective collaborations, and how these can be supported by using the **VBD Hub Forum**. 
+
+
+Effective data wrangling and collaboration are valuable skills for researchers working with complex datasets. By carefully considering how data are formatted, we can ensure our work is reproducible and suitable for further analyses. Clear, consistent and reproducible datasets support positive collaborations by allowing everyone involved to understand the data used to answer the group’s research questions.
 
 
 # Challenge Task
 
 
-## Level 1
-Find a dataset using Hub Search or VBD Hub (participant choice)
+## Introduction
+This Challenge Task provides an opportunity for you to independently apply the skills and concepts discussed throughout this online training, including:
+
+- Navigating the **VBD Hub** website and where to find key resources.
+- Using **Hub Search** and the **ohvbd package** to search and retrieve data.
+- Data wrangling techniques commonly applied to VBD datasets, including merging and fixing species names.
+- Practice applying data wrangling principles to real-world datasets.  
+- Using the **VBD Hub Forum** and collaborating within the VBD community.
 
 
-## Level 2
-What data types?
+The **Challenge Task** has multiple levels and is designed to encourage applied thinking. Feel free to work through the levels that apply to you, but we encourage you to try all levels to make the most of the training. 
 
 
-Does it need converting from wide to long?
+During the **Challenge Task**, we encourage you to experiment with different approaches and discuss potential difficulties with each other via the [VBD Hub Forum](https://forum.vbdhub.org/t/challenge-task-q-a-data-wrangling-with-hubsearch-and-ohvbd/162). Our demonstrators and I will be monitoring the **Forum** if you need any additional support. 
 
 
-## Level 3
-Do any columns need merging? (second dataset? TBC?)
+After approximately 2 hours, a workbook version of this challenge will be made available on the [Online Training site](https://vbdhub.org/resources/learn). This is not an answer sheet, and we encourage you to continue coding yourself, rather than reading through the solutions. This workbook will walk you through the tasks like in the examples used throughout the training, but with a bit more independence before providing the answers.
 
 
-## Level 4
-Check species names
+## Level 1 - Retrieve a dataset
+Use the **ohvbd package** to find and retrieve a VBD dataset of your choice. Feel free to choose a dataset that aligns with your own interest, but try to choose one that includes species data, location data, and environmental or trait variables. 
 
 
-Variable/trait names?
+View your dataset:
+
+- Identify the data types and potential key columns. 
+- Check if your data contains missing values or inconsistent column names. 
+- Consider whether your dataset needs converting from wide to long format.
 
 
-## Level 5
-Share your wrangling process in the Forum, feedback to each other
+## Level 2 - Wrangle your data
+Apply at least two data wrangling techniques to improve the usability of your dataset. Consider why you chose those changes for your specific dataset.
 
 
-You might choose to pair up with someone using similar data and give peer feedback
+## Level 3 - Cleaning species names
+Identify the species column of your dataset and check if the species names are formatted consistently. Apply name cleaning techniques where appropriate.
 
+
+## Level 4 - Merging datasets
+For this level, you have a choice of two options:
+
+
+**Level 4a** - Find a second dataset that can be combined with your first, for instance, if your first dataset focused on mosquito abundance, you might look for a second dataset on environmental factors. Identify a suitable key and try to merge the datasets.
+
+
+**Level 4b** - If a suitable second dataset is not available, focus on preparing your first dataset for merging by identifying potential key columns and whether they are in a usable format. 
 
 
 ::: {.rmdtip}
-**Tip:** This is a tip.
+**Tip:** We recommend trying **Level 4a** to make the most of this training session.
 :::
 
-::: {.rmdnote}
-**Note:** This is a note.
-:::
 
-::: {.rmdimportant}
-**Important:** This is important.
-:::
+## Level 5 - Share and collaborate
+Share a short summary of your wrangling process on the **VBD Hub Forum**, including:
 
-::: {.rmdcaution}
-**Caution:** This is a caution.
-:::
+- The dataset you chose.
+- The wrangling steps you applied and why you chose them.
+- Any challenges you came across. 
 
-::: {.rmdwarning}
-**Warning:** This is a warning.
-:::
+
+Encourage each other by responding to other participants’ summaries - you could ask questions about their process, provide feedback, or suggest an alternative approach. 
+
+
+# Reading & Resources
+
+- [VBD Hub](https://ohvbd.vbdhub.org/)
+- [Hub Search](https://ohvbd.vbdhub.org/reference/search_hub.html)
+- [ohvbd: One Health VBD Hub](https://cloud.r-project.org/web/packages/ohvbd/index.html)
+- [Citing data retrieved using ohvbd](https://ohvbd.vbdhub.org/articles/citations.html#a-basic-example)
+- [Retrieving data from VectorByte](https://cran.r-project.org/web/packages/ohvbd/vignettes/retrieving-data.html)
+- [Sourcing climatic data from AREAdata](https://cran.rstudio.com/web/packages/ohvbd/vignettes/use-areadata.html)
 
 
