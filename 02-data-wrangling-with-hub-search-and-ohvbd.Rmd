@@ -126,7 +126,7 @@ The **Getting started** boxes provide user-friendly links to some of the key inf
 The **Roadmap** covers the progress of the VBD Hub since July 2024. As the Hub continues to grow, new developments will be updated here. 
 
 
-![VBD Hub Home screen](images/homescreen.png "alt text")
+![VBD Hub Home screen](images/homescreen.png "alt text"){width=100%}
 
 
 ### Find Data
@@ -139,7 +139,7 @@ You may notice this page is linked under the **Getting started** section of the 
 We will explore this resource in more detail shortly.
 
 
-![VBD Hub Search](images/finddata.png "alt text")
+![VBD Hub Search](images/finddata.png "alt text"){width=100%}
 
 
 ### About
@@ -149,7 +149,7 @@ Under the **About** tab, you will find a more in depth overview of the **VBD Hub
 There is also a list of the **Core team**, and their involvement within the Hub.
 
 
-![VBD Hub About page](images/about.png "alt text")
+![VBD Hub About page](images/about.png "alt text"){width=100%}
 
 
 ### Resources
@@ -164,7 +164,7 @@ The Resources tab offers a drop-down menu of four pages:
 You may notice some of these are also linked under the **Getting started** section of the **Home** page.
 
 
-![VBD Hub Resources](images/resources.png "alt text")
+![VBD Hub Resources](images/resources.png "alt text"){width=100%}
 
 
 ### Community
@@ -174,7 +174,7 @@ The **Community** tab also has a drop-down menu, with links to:
 - **Blog** - announcements will be posted in this space with details of Hub development, contributions, and upcoming opportunities, including this training.
 
 
-![VBD Hub Community](images/community.png "alt text")
+![VBD Hub Community](images/community.png "alt text"){width=100%}
 
 
 ## VBD Hub Resources & How to Use Them
@@ -265,11 +265,13 @@ library(ohvbd)
 
 **ohvbd** uses a piped workflow, which allows us to build on each step of our code. For example, if we wanted to search for data on *Ixodes ricinus* from the **VecTraits** database, we can run:
 
-
-``` {r}
+```{r include=FALSE}
+ixodes_ricinus_data <- readRDS("data/ixodes_vt_data.rds")
+```
+``` r
 ixodes_ricinus_data <- search_hub("Ixodes ricinus") |>
   filter_db("vt") |>
-  fetch() |>
+  fetch(connections = 8) |>
   glean()
 ```
 
@@ -314,7 +316,7 @@ search_hub(
 ```
 
 
-Let’s break this down so we can understand what each argument does:
+Let’s also break this down so we can understand what each argument does:
 
 - **query** - what you are searching for, such as a species name.
 - **db** - which databases we want to search
@@ -359,14 +361,16 @@ filter_db("vt")
 
 Now we can combine these lines of code to retrieve and format the data:
 
-
-``` {r}
-aedes_aegypti_data <- search_hub("Aedes aegypti") |>
- filter_db("vt") |>
- fetch() |>
- glean()
+```{r, include = FALSE}
+aedes_aegypti_data <- readRDS("data/aedesaegypti_vt_data.rds")
 ```
 
+``` r
+aedes_aegypti_data <- search_hub("Aedes aegypti", db = "vt") |>
+ filter_db("vt") |>
+ fetch(connections = 8) |>
+ glean()
+```
 
 Notice we also added `fetch()` and `glean()` to our pipeline. These ensure the data is downloaded and formatted for further wrangling and analysis.
 
@@ -389,7 +393,7 @@ Remember, data retrieved using **ohvbd** can be raw and depends on the format of
 Let’s save our data, we will use this later in the workshop:
 
 
-``` {r}
+``` r
 write.csv(aedes_aegypti_data, "aedes_aegypti_data.csv", row.names = FALSE)
 ```
 
