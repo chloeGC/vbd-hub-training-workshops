@@ -266,43 +266,95 @@
 <h3>
 <span class="header-section-number">8.7.1</span> Example<a class="anchor" aria-label="anchor" href="#example"><i class="fas fa-link"></i></a>
 </h3>
-<p>We can use <strong>ohvbd</strong> to retrieve a dataset on mosquito abundance from …, and another dataset on (species trait) from …, in order to analyse patterns of abundance dependent on (species trait):</p>
-<p><code>mosquito_abundance_data</code></p>
-<p><code>trait_data</code></p>
-<p>We can try to merge these datasets in their raw format:</p>
+<p>Let’s imagine we have used <strong>ohvbd</strong> to retrieve a dataset on mosquito abundance, <code>mosquito_abundance_data</code>, and another dataset on mosquito habitats, <code>mosquito_habitat_data</code>, in order to analyse patterns of abundance dependent on habitat type:</p>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">merged_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">mosquito_abundance_data</span>, <span class="va">trait_data</span>, by <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span></code></pre></div>
-<p>Oh dear, our merge has failed. Let’s double what our data looks like using <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>:</p>
+<code class="sourceCode R"><span><span class="va">mosquito_abundance_data</span></span>
+<span><span class="co">#&gt;              species location abundance</span></span>
+<span><span class="co">#&gt; 1      Aedes aegypti    Site1        10</span></span>
+<span><span class="co">#&gt; 2      Culex pipiens    Site1         5</span></span>
+<span><span class="co">#&gt; 3      aedes_aegypti    Site2        12</span></span>
+<span><span class="co">#&gt; 4 Culex pipiens spp.    Site2         7</span></span>
+<span></span>
+<span><span class="va">mosquito_habitat_data</span></span>
+<span><span class="co">#&gt;         species location habitat</span></span>
+<span><span class="co">#&gt; 1 aedes aegypti    Site1   urban</span></span>
+<span><span class="co">#&gt; 2 culex pipiens    Site1 wetland</span></span>
+<span><span class="co">#&gt; 3 aedes aegypti    Site2   urban</span></span>
+<span><span class="co">#&gt; 4 culex pipiens    Site2 wetland</span></span></code></pre></div>
+<p>We can try to merge these datasets in their raw format:</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">merged_mosquito_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span></span>
+<span>  <span class="va">mosquito_abundance_data</span>,</span>
+<span>  <span class="va">mosquito_habitat_data</span>,</span>
+<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"species"</span>, <span class="st">"location"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Let’s double check what our data looks like using <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> and <code><a href="https://rdrr.io/r/base/nrow.html">nrow()</a></code>:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">merged_mosquito_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;              species location abundance habitat</span></span>
+<span><span class="co">#&gt; 1      Aedes aegypti    Site1        10    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2      Culex pipiens    Site1         5    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3      aedes_aegypti    Site2        12    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4 Culex pipiens spp.    Site2         7    &lt;NA&gt;</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">merged_mosquito_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<p>Oh dear! We can see that our merge has run, but the rows have not matched correctly. We would expect a habitat column from the dataset we wanted to combine, but this isn’t showing because something has gone wrong in the merge.</p>
+<p>This is because the species names are formatted differently across the two datasets, so R has treated these as different values. Although the locations match, both the location <strong>and</strong> species need to match exactly for the merge to work.</p>
+<p>Let’s have a look at our original data:</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mosquito_abundance_data</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">trait_data</span><span class="op">)</span></span></code></pre></div>
-<p>We can see some inconsistencies with our species names, including…:</p>
+<span><span class="co">#&gt;              species location abundance</span></span>
+<span><span class="co">#&gt; 1      Aedes aegypti    Site1        10</span></span>
+<span><span class="co">#&gt; 2      Culex pipiens    Site1         5</span></span>
+<span><span class="co">#&gt; 3      aedes_aegypti    Site2        12</span></span>
+<span><span class="co">#&gt; 4 Culex pipiens spp.    Site2         7</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mosquito_habitat_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         species location habitat</span></span>
+<span><span class="co">#&gt; 1 aedes aegypti    Site1   urban</span></span>
+<span><span class="co">#&gt; 2 culex pipiens    Site1 wetland</span></span>
+<span><span class="co">#&gt; 3 aedes aegypti    Site2   urban</span></span>
+<span><span class="co">#&gt; 4 culex pipiens    Site2 wetland</span></span></code></pre></div>
+<p>We can see some inconsistencies with our species names, including:</p>
 <ul>
-<li>Difference in capitalisation - “Aedes aegypti” or “aedes aegypti”</li>
-<li>Using underscores instead of spaces - “aedes_aegypti” or “aedes aegypti”</li>
-<li>Additional text - “aedes aegypti spp.”</li>
+<li>Difference in capitalisation</li>
+<li>Using underscores instead of spaces</li>
+<li>Additional text</li>
 </ul>
 <p>Let’s make sure all our species names are lowercase and remove unwanted formatting:</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_mosquito_abundance_data</span> <span class="op">&lt;-</span> <span class="va">mosquito_abundance_data</span> <span class="op">|&gt;</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" spp\\."</span>, <span class="st">""</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" spp\\."</span>, <span class="st">""</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">clean_trait_data</span> <span class="op">&lt;-</span> <span class="va">trait_data</span> <span class="op">|&gt;</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" spp\\."</span>, <span class="st">""</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">clean_mosquito_habitat_data</span> <span class="op">&lt;-</span> <span class="va">mosquito_habitat_data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" spp\\."</span>, <span class="st">""</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Now that our species names are consistent, we can try merging again:</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">merged_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">clean_mosquito_abundance_data</span>, <span class="va">clean_trait_data</span>, by <span class="op">=</span> <span class="st">"species"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">merged_mosquito_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span></span>
+<span>  <span class="va">clean_mosquito_abundance_data</span>,</span>
+<span>  <span class="va">clean_mosquito_habitat_data</span>,</span>
+<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"species"</span>, <span class="st">"location"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">merged_data</span><span class="op">)</span></span></code></pre></div>
-<p>We can see our merge has now run successfully, and the data is formatted as we intended. It can be used for further wrangling and analysis.</p>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">merged_mosquito_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         species location abundance habitat</span></span>
+<span><span class="co">#&gt; 1 aedes aegypti    Site1        10   urban</span></span>
+<span><span class="co">#&gt; 2 culex pipiens    Site1         5 wetland</span></span>
+<span><span class="co">#&gt; 3 aedes aegypti    Site2        12   urban</span></span>
+<span><span class="co">#&gt; 4 culex pipiens    Site2         7 wetland</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">merged_mosquito_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<p>We can see that now our species names are consistent, the merge has worked as expected. Each row has been correctly matched by both species and locations, so the habitat data has been correctly combined with the abundance data. The dataset is now in a usable format for further wrangling and analysis.</p>
 <div class="rmdcaution">
 <p><strong>Frequent mistake:</strong> People often only clean one dataset before merging, but data for the key column needs to be consistent across both datasets for the merge to be successful.</p>
 </div>
-<p>So far, we have used straightforward approaches such as concerting all text to lowercase and removing consistent unwanted characters like “spp.”. These techniques are useful starting points, but species names in real VBD datasets often contain more complex inconsistencies.</p>
+<p>So far, we have used straightforward approaches such as converting all text to lowercase and removing consistent unwanted characters like “spp.”. These techniques are useful starting points, but species names in real VBD datasets often contain more complex inconsistencies.</p>
 <p>More complex cases might involve:</p>
 <ul>
 <li>Abbreviated genus names - <code>"I. ricinus"</code>.</li>
@@ -319,11 +371,11 @@
 </ul>
 <p>If we apply our earlier name cleaning techniques, we might standardise most of these species name formats, but <code>"I. ricinus"</code> would remain as is, and R would process this as a different value.</p>
 <p>In situations like this, where not all inconsistencies can be solved with simple text replacement, you will likely need to inspect unique values in your dataset:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">clean_data</span><span class="op">$</span><span class="va">species</span><span class="op">)</span></span></code></pre></div>
 <p>This allows you to see all the distinct values in the species column, so that you can identify inconsistent formats, such as <code>"I. ricinus"</code>, and decide on a consistent naming format for your data.</p>
 <p>Specific cases might need to be manually recoded:</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">clean_data</span> <span class="op">&lt;-</span> <span class="va">clean_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"i. ricinus"</span>, <span class="st">"ixodes ricinus"</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>As species columns are typically used as a key when merging in VBD research, ensuring species names are consistent across our datasets can allow us to merge multiple datasets more confidently and reliably.</p>
@@ -348,7 +400,7 @@
 </h3>
 <p>When using large or messy datasets, an alternative approach you might choose is to match your species names against a recognised taxonomic database.</p>
 <p>The <code>rgbif</code> package can be used to help standardise species names using the Global Biodiversity Information Facility (GBIF). We can use the <code>name_backbone()</code> function to try to match your species name input to a standardised species name in the GBIF backbone taxonomy:</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/rgbif">rgbif</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">name_backbone</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"ixodes ricinus"</span><span class="op">)</span></span></code></pre></div>
@@ -403,7 +455,7 @@
 <h3>
 <span class="header-section-number">8.9.1</span> Example 1<a class="anchor" aria-label="anchor" href="#example-1"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Dataset A</span></span>
 <span><span class="va">data_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"aedes aegypti"</span>, <span class="st">"culex pipiens"</span>, <span class="st">"anopheles gambiae"</span><span class="op">)</span>,</span>
@@ -423,7 +475,7 @@
 <h3>
 <span class="header-section-number">8.9.2</span> Example 2<a class="anchor" aria-label="anchor" href="#example-2"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Dataset</span></span>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Aedes aegypti"</span>, <span class="st">"aedes_aegypti"</span>, <span class="st">"Aedes aegypti spp."</span><span class="op">)</span>,</span>
@@ -439,7 +491,7 @@
 <h3>
 <span class="header-section-number">8.9.3</span> Example 3<a class="anchor" aria-label="anchor" href="#example-3"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Dataset A</span></span>
 <span><span class="va">data_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"aedes aegypti"</span>, <span class="st">"culex pipiens"</span>, <span class="st">"anopheles gambiae"</span><span class="op">)</span>,</span>
@@ -459,7 +511,7 @@
 <h3>
 <span class="header-section-number">8.9.4</span> Example 4<a class="anchor" aria-label="anchor" href="#example-4"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Dataset A</span></span>
 <span><span class="va">data_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"aedes aegypti"</span>, <span class="st">"aedes aegypti"</span>, <span class="st">"culex pipiens"</span><span class="op">)</span>,</span>
@@ -597,7 +649,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>One Health VBD Hub Training 2026</strong>" was written by Chloë Coxshall. It was last built on 2026-03-23.</p>
+    <p>"<strong>One Health VBD Hub Training 2026</strong>" was written by Chloë Coxshall. It was last built on 2026-03-24.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

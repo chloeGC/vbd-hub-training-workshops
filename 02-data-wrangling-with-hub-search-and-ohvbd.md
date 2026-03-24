@@ -1714,66 +1714,131 @@ If species names are not standardised across our datasets:
 
 
 ### Example
-We can use **ohvbd** to retrieve a dataset on mosquito abundance from …, and another dataset on (species trait) from …, in order to analyse patterns of abundance dependent on (species trait):
+Let's imagine we have used **ohvbd** to retrieve a dataset on mosquito abundance, `mosquito_abundance_data`, and another dataset on mosquito habitats, `mosquito_habitat_data`, in order to analyse patterns of abundance dependent on habitat type:
 
 
-`mosquito_abundance_data`
 
 
-`trait_data`
+
+``` r
+mosquito_abundance_data
+#>              species location abundance
+#> 1      Aedes aegypti    Site1        10
+#> 2      Culex pipiens    Site1         5
+#> 3      aedes_aegypti    Site2        12
+#> 4 Culex pipiens spp.    Site2         7
+
+mosquito_habitat_data
+#>         species location habitat
+#> 1 aedes aegypti    Site1   urban
+#> 2 culex pipiens    Site1 wetland
+#> 3 aedes aegypti    Site2   urban
+#> 4 culex pipiens    Site2 wetland
+```
 
 
 We can try to merge these datasets in their raw format:
 
 
+
 ``` r
-merged_data <- left_join(mosquito_abundance_data, trait_data, by = "species")
+library(dplyr)
+
+merged_mosquito_data <- left_join(
+  mosquito_abundance_data,
+  mosquito_habitat_data,
+  by = c("species", "location")
+)
 ```
 
 
-Oh dear, our merge has failed. Let’s double what our data looks like using `head()`:
+Let’s double check what our data looks like using `head()` and `nrow()`:
 
+
+
+``` r
+head(merged_mosquito_data)
+#>              species location abundance habitat
+#> 1      Aedes aegypti    Site1        10    <NA>
+#> 2      Culex pipiens    Site1         5    <NA>
+#> 3      aedes_aegypti    Site2        12    <NA>
+#> 4 Culex pipiens spp.    Site2         7    <NA>
+nrow(merged_mosquito_data)
+#> [1] 4
+```
+
+
+Oh dear! We can see that our merge has run, but the rows have not matched correctly. We would expect a habitat column from the dataset we wanted to combine, but this isn't showing because something has gone wrong in the merge. 
+
+This is because the species names are formatted differently across the two datasets, so R has treated these as different values. Although the locations match, both the location **and** species need to match exactly for the merge to work.
+
+
+Let's have a look at our original data:
 
 ``` r
 head(mosquito_abundance_data)
-head(trait_data)
+#>              species location abundance
+#> 1      Aedes aegypti    Site1        10
+#> 2      Culex pipiens    Site1         5
+#> 3      aedes_aegypti    Site2        12
+#> 4 Culex pipiens spp.    Site2         7
+
+head(mosquito_habitat_data)
+#>         species location habitat
+#> 1 aedes aegypti    Site1   urban
+#> 2 culex pipiens    Site1 wetland
+#> 3 aedes aegypti    Site2   urban
+#> 4 culex pipiens    Site2 wetland
 ```
 
 
-We can see some inconsistencies with our species names, including…:
+We can see some inconsistencies with our species names, including:
 
-- Difference in capitalisation - “Aedes aegypti” or “aedes aegypti”
-- Using underscores instead of spaces - “aedes_aegypti” or “aedes aegypti”
-- Additional text - “aedes aegypti spp.”
+- Difference in capitalisation 
+- Using underscores instead of spaces 
+- Additional text 
 
 
 Let’s make sure all our species names are lowercase and remove unwanted formatting:
 
 
+
 ``` r
 clean_mosquito_abundance_data <- mosquito_abundance_data |>
-mutate(species = tolower(species)) |>
-mutate(species = gsub("_", " ", species)) |>
-mutate(species = gsub(" spp\\.", "", species))
+  mutate(species = tolower(species)) |>
+  mutate(species = gsub("_", " ", species)) |>
+  mutate(species = gsub(" spp\\.", "", species))
 
-clean_trait_data <- trait_data |>
-mutate(species = tolower(species)) |>
-mutate(species = gsub("_", " ", species)) |>
-mutate(species = gsub(" spp\\.", "", species))
+clean_mosquito_habitat_data <- mosquito_habitat_data |>
+  mutate(species = tolower(species)) |>
+  mutate(species = gsub("_", " ", species)) |>
+  mutate(species = gsub(" spp\\.", "", species))
 ```
 
 
 Now that our species names are consistent, we can try merging again:
 
 
-``` r
-merged_data <- left_join(clean_mosquito_abundance_data, clean_trait_data, by = "species")
 
-head(merged_data)
+``` r
+merged_mosquito_data <- left_join(
+  clean_mosquito_abundance_data,
+  clean_mosquito_habitat_data,
+  by = c("species", "location")
+)
+
+head(merged_mosquito_data)
+#>         species location abundance habitat
+#> 1 aedes aegypti    Site1        10   urban
+#> 2 culex pipiens    Site1         5 wetland
+#> 3 aedes aegypti    Site2        12   urban
+#> 4 culex pipiens    Site2         7 wetland
+nrow(merged_mosquito_data)
+#> [1] 4
 ```
 
 
-We can see our merge has now run successfully, and the data is formatted as we intended. It can be used for further wrangling and analysis.
+We can see that now our species names are consistent, the merge has worked as expected. Each row has been correctly matched by both species and locations, so the habitat data has been correctly combined with the abundance data. The dataset is now in a usable format for further wrangling and analysis.
 
 
 ::: {.rmdcaution}
@@ -1781,7 +1846,7 @@ We can see our merge has now run successfully, and the data is formatted as we i
 :::
 
 
-So far, we have used straightforward approaches such as concerting all text to lowercase and removing consistent unwanted characters like "spp.". These techniques are useful starting points, but species names in real VBD datasets often contain more complex inconsistencies.
+So far, we have used straightforward approaches such as converting all text to lowercase and removing consistent unwanted characters like "spp.". These techniques are useful starting points, but species names in real VBD datasets often contain more complex inconsistencies.
 
 
 More complex cases might involve:
