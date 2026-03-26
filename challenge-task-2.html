@@ -95,34 +95,85 @@
 <span class="header-section-number">9.2</span> Level 1 - Retrieve a dataset<a class="anchor" aria-label="anchor" href="#level-1---retrieve-a-dataset"><i class="fas fa-link"></i></a>
 </h2>
 <p>Use the <strong>ohvbd package</strong> to find and retrieve a VBD dataset of your choice. Feel free to choose a dataset that aligns with your own interest, but try to choose one that includes species data, location data, and environmental or trait variables.</p>
+<div class="rmdtip">
+<p><strong>Hint:</strong> Remember to use the arguments from the <strong>Pre- Live Session</strong> content to refine your search:</p>
+<ul>
+<li>query - what you are searching for, such as a species name.</li>
+<li>db - which databases we want to search</li>
+<li>fromdate - the date we want to search from.</li>
+<li>todate - the date we want to search up to.</li>
+<li>locationpoly - set our search to a geographic area.</li>
+<li>taxonomy - advanced search by species ID.</li>
+<li>exact - whether to return exact matches only.</li>
+<li>withoutpublished - whether to return results without a publishing date when filtering by date.</li>
+<li>returnlist - return the raw output list of datasets, rather than a formatted dataframe.</li>
+</ul>
+<p>You can also find vignettes with examples under <strong>Reading &amp; Resources</strong>.</p>
+</div>
 <p>View your dataset:</p>
 <ul>
 <li>Identify the data types and potential key columns.</li>
 <li>Check if your data contains missing values or inconsistent column names.</li>
 <li>Consider whether your dataset needs converting from wide to long format.</li>
 </ul>
+<div class="rmdtip">
+<p><strong>Hint:</strong> Use functions like <code><a href="https://tibble.tidyverse.org/reference/view.html">view()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, <code><a href="https://rdrr.io/r/base/nrow.html">nrow()</a></code>, and <code><a href="https://rdrr.io/r/base/unique.html">unique()</a></code> to check your data/ Remember that familiarising your data before making any changes will help contribute to a smoother data wrangling process.</p>
+</div>
 </div>
 <div id="level-2---wrangle-your-data" class="section level2" number="9.3">
 <h2>
 <span class="header-section-number">9.3</span> Level 2 - Wrangle your data<a class="anchor" aria-label="anchor" href="#level-2---wrangle-your-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>Apply at least two data wrangling techniques to improve the usability of your dataset. Consider why you chose those changes for your specific dataset.</p>
+<div class="rmdtip">
+<p><strong>Hint:</strong> Refer back to the do’s and don’t of Data Wrangling Principles from the <strong>Pre- Live Session</strong> content for general data wrangling advice. Apply what is necessary to your chosen dataset.</p>
+</div>
 </div>
 <div id="level-3---cleaning-species-names" class="section level2" number="9.4">
 <h2>
 <span class="header-section-number">9.4</span> Level 3 - Cleaning species names<a class="anchor" aria-label="anchor" href="#level-3---cleaning-species-names"><i class="fas fa-link"></i></a>
 </h2>
 <p>Identify the species column of your dataset and check if the species names are formatted consistently. Apply name cleaning techniques where appropriate.</p>
+<div class="rmdtip">
+<p><strong>Hint:</strong> Identify the inconsistencies in your species names using unique(). Once you know how the species names vary in your dataset, you can use mutate() and:</p>
+<ul>
+<li>Set all text to lowercase:</li>
+</ul>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clean_data</span> <span class="op">&lt;-</span> <span class="va">clean_data</span> <span class="op">|&gt;</span></span>
+<span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>Remove unwanted characters, such as underscores:</li>
+</ul>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clean_data</span> <span class="op">&lt;-</span> <span class="va">clean_data</span> <span class="op">|&gt;</span></span>
+<span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>Remove additional text, such as “spp.”:</li>
+</ul>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clean_data</span> <span class="op">&lt;-</span> <span class="va">clean_data</span> <span class="op">|&gt;</span></span>
+<span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" spp\\."</span>, <span class="st">""</span>, <span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>Remove any extra spaces:</li>
+</ul>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">clean_data</span> <span class="op">&lt;-</span> <span class="va">clean_data</span> <span class="op">|&gt;</span></span>
+<span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span><span class="op">(</span><span class="va">species</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div id="level-4---merging-datasets" class="section level2" number="9.5">
 <h2>
 <span class="header-section-number">9.5</span> Level 4 - Merging datasets<a class="anchor" aria-label="anchor" href="#level-4---merging-datasets"><i class="fas fa-link"></i></a>
 </h2>
-<p>For this level, you have a choice of two options:</p>
+<p>For this level, you have a choice of two options (we recommend trying <strong>Level 4a</strong> to make the most of this training session):</p>
 <p><strong>Level 4a</strong> - Find a second dataset that can be combined with your first, for instance, if your first dataset focused on mosquito abundance, you might look for a second dataset on environmental factors. Identify a suitable key and try to merge the datasets.</p>
+<div class="rmdtip">
+<p><strong>Hint:</strong> Refer back to <strong>Level 1</strong> for advice on refining your <strong>ohvbd</strong> search. Common keys in VBD data include species name, location, or date columns.</p>
+</div>
 <p><strong>Level 4b</strong> - If a suitable second dataset is not available, focus on preparing your first dataset for merging by identifying potential key columns and whether they are in a usable format.</p>
 <div class="rmdtip">
-<p><strong>Tip:</strong> We recommend trying <strong>Level 4a</strong> to make the most of this training session.</p>
+<p><strong>Hint:</strong> Common keys in VBD data include species name, location, or date columns. Consider how these columns are formatted in your dataset, and how this formatting might vary across other datasets.</p>
 </div>
 </div>
 <div id="level-5---share-and-collaborate" class="section level2" number="9.6">
@@ -136,6 +187,9 @@
 <li>Any challenges you came across.</li>
 </ul>
 <p>Encourage each other by responding to other participants’ summaries - you could ask questions about their process, provide feedback, or suggest an alternative approach.</p>
+<div class="rmdtip">
+<p><strong>Hint:</strong> The <a href="https://forum.vbdhub.org/t/online-training-data-wrangling-with-hubsearch-and-ohvbd/161/3">VBD Hub Forum</a> is a useful space to seek advice and opportunities within the VBD community. Sharing this task gives you experience navigating the <strong>Forum</strong> so you are aware of how it works for future use.</p>
+</div>
 </div>
 </div>
   <div class="chapter-nav">
@@ -168,7 +222,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>One Health VBD Hub Training 2026</strong>" was written by Chloë Coxshall. It was last built on 2026-03-24.</p>
+    <p>"<strong>One Health VBD Hub Training 2026</strong>" was written by Chloë Coxshall. It was last built on 2026-03-26.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

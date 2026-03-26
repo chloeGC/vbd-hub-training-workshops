@@ -2165,6 +2165,24 @@ After approximately 2 hours, a workbook version of this challenge will be made a
 Use the **ohvbd package** to find and retrieve a VBD dataset of your choice. Feel free to choose a dataset that aligns with your own interest, but try to choose one that includes species data, location data, and environmental or trait variables. 
 
 
+::: {.rmdtip}
+**Hint:** Remember to use the arguments from the **Pre- Live Session** content to refine your search:
+
+- query - what you are searching for, such as a species name.
+- db - which databases we want to search
+- fromdate - the date we want to search from. 
+- todate - the date we want to search up to. 
+- locationpoly - set our search to a geographic area.
+- taxonomy - advanced search by species ID.
+- exact - whether to return exact matches only.
+- withoutpublished - whether to return results without a publishing date when filtering by date.
+- returnlist - return the raw output list of datasets, rather than a formatted dataframe.
+
+
+You can also find vignettes with examples under **Reading & Resources**.
+:::
+
+
 View your dataset:
 
 - Identify the data types and potential key columns. 
@@ -2172,26 +2190,67 @@ View your dataset:
 - Consider whether your dataset needs converting from wide to long format.
 
 
+::: {.rmdtip}
+**Hint:** Use functions like `view()`, `head()`, `nrow()`, and `unique()` to check your data/ Remember that familiarising your data before making any changes will help contribute to a smoother data wrangling process.
+:::
+
+
 ## Level 2 - Wrangle your data
 Apply at least two data wrangling techniques to improve the usability of your dataset. Consider why you chose those changes for your specific dataset.
+
+
+::: {.rmdtip}
+**Hint:** Refer back to the do’s and don’t of Data Wrangling Principles from the **Pre- Live Session** content for general data wrangling advice. Apply what is necessary to your chosen dataset.
+:::
 
 
 ## Level 3 - Cleaning species names
 Identify the species column of your dataset and check if the species names are formatted consistently. Apply name cleaning techniques where appropriate.
 
 
+::: {.rmdtip}
+**Hint:** Identify the inconsistencies in your species names using unique(). Once you know how the species names vary in your dataset, you can use mutate() and:
+
+- Set all text to lowercase:
+``` r 
+clean_data <- clean_data |>
+ mutate(species = tolower(species))
+```
+- Remove unwanted characters, such as underscores:
+``` r
+clean_data <- clean_data |>
+ mutate(species = gsub("_", " ", species))
+ ```
+- Remove additional text, such as “spp.”:
+``` r
+clean_data <- clean_data |>
+ mutate(species = gsub(" spp\\.", "", species))
+```
+- Remove any extra spaces:
+``` r
+clean_data <- clean_data |>
+ mutate(species = trimws(species))
+```
+:::
+
+
 ## Level 4 - Merging datasets
-For this level, you have a choice of two options:
+For this level, you have a choice of two options (we recommend trying **Level 4a** to make the most of this training session):
 
 
 **Level 4a** - Find a second dataset that can be combined with your first, for instance, if your first dataset focused on mosquito abundance, you might look for a second dataset on environmental factors. Identify a suitable key and try to merge the datasets.
+
+
+::: {.rmdtip}
+**Hint:** Refer back to **Level 1** for advice on refining your **ohvbd** search. Common keys in VBD data include species name, location, or date columns.
+:::
 
 
 **Level 4b** - If a suitable second dataset is not available, focus on preparing your first dataset for merging by identifying potential key columns and whether they are in a usable format. 
 
 
 ::: {.rmdtip}
-**Tip:** We recommend trying **Level 4a** to make the most of this training session.
+**Hint:** Common keys in VBD data include species name, location, or date columns. Consider how these columns are formatted in your dataset, and how this formatting might vary across other datasets.
 :::
 
 
@@ -2204,6 +2263,11 @@ Share a short summary of your wrangling process on the **VBD Hub Forum**, includ
 
 
 Encourage each other by responding to other participants’ summaries - you could ask questions about their process, provide feedback, or suggest an alternative approach. 
+
+
+::: {.rmdtip}
+**Hint:** The [VBD Hub Forum](https://forum.vbdhub.org/t/online-training-data-wrangling-with-hubsearch-and-ohvbd/161/3) is a useful space to seek advice and opportunities within the VBD community. Sharing this task gives you experience navigating the **Forum** so you are aware of how it works for future use. 
+:::
 
 
 # Reading & Resources
